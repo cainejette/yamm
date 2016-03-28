@@ -1,5 +1,21 @@
-/* app css stylesheet */
+
 body {
-  background-color: black;
-  color: white;
+  padding: 10px;
 }
+
+a {
+  cursor: pointer;
+}
+
+.form-control {
+  float: left;
+  margin-right: 10px;
+  width: 70%;
+}
+
+.forecast-img {
+  margin-right: 10px;
+  width: 45px;
+}
+
+                
