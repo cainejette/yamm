@@ -18,9 +18,16 @@
       <div>{{ currentTime | date:'EEEE, MMMM d' }}</div>
       <div>{{ currentTime | date:'HH:mm:ss'}}</div>
     </div>
+    <br/>
     
     <div ng-controller="weatherCtrl">
-      <div>{{ currentTemperature }}</div>
+      <div>Current temperature (F): {{ currentTemperature }}</div>
+      <br/>
+      
+      <div ng-repeat="forecast in forecasts">
+        <span>{{ forecast.time | date:'EEEE, MMMM d HH:mm' }}: </span>
+        <span>{{ forecast.temp }}</span>
+      </div>
     </div>
            
   </body>

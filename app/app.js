@@ -5,29 +5,48 @@ app.controller('timeCtrl', ['$scope', '$interval', function($scope, $interval) {
 }]);
 
 app.controller('weatherCtrl', ['$scope', '$interval', 'weatherService', function($scope, $interval, weatherService) {
-  fetchWeather = (zip) => {
-    weatherService.getWeather(zip).then(function(data){
-      $scope.currentTemperature = data.main.temp;      
+  fetchWeather = () => {
+    
+    weatherService.getWeather().then(data => {
+      $scope.currentTemperature = data.main.temp;
+    })
+    
+    weatherService.getForecast().then(data => {
+      $scope.forecasts = data.list.map(x => {
+        return {
+          'time': new Date(x.dt * 1000),
+          'temp': x.main.temp
+        }
+      });
     }); 
   }
   
-  // update weather every 10 minutes
-  $interval(fetchWeather('98103'), 60000);
+  $interval(fetchWeather(), 60000);
 }]);
 
 app.factory('weatherService', ['$http', '$q', function ($http, $q){
-  function getWeather (zip) {
+  getData = (url) => {
     var deferred = $q.defer();
-    $http.get('http://api.openweathermap.org/data/2.5/weather?zip=98103,us&APPID=348b7efbb2dd9a705529089eed545a15&units=imperial')
+    $http.get(url)
       .success(data => deferred.resolve(data))
       .error(err => {
-        console.log('Error retrieving markets');
+        console.log('Error fetching from: ' + url);
         deferred.reject(err);
       });
+      
     return deferred.promise;
+  }
+
+  getForecast = () => {
+    return getData('http://api.openweathermap.org/data/2.5/forecast?q=98103,us&APPID=348b7efbb2dd9a705529089eed545a15&units=imperial');
+  }  
+  
+  getWeather = () => {
+    return getData('http://api.openweathermap.org/data/2.5/weather?q=98103,us&APPID=348b7efbb2dd9a705529089eed545a15&units=imperial');
   }
   
   return {
+    getForecast: getForecast,
     getWeather: getWeather
   };
 }]);
