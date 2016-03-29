@@ -1,4 +1,8 @@
-var app = angular.module('weatherApp', []);
+var app = angular.module('yamm', []);
+
+app.controller('timeCtrl', ['$scope', '$interval', function($scope, $interval) {
+  $interval(() => $scope.currentTime = new Date(), 1000);
+}]);
 
 app.controller('weatherCtrl', ['$scope', 'weatherService', function($scope, weatherService) {
   function fetchWeather(zip) {

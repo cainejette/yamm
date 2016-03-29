@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="weatherApp">
+<html ng-app="yamm">
 
   <head>
     <meta charset="utf-8" />
@@ -12,12 +12,12 @@
     <script src="app.js"></script>
   </head>
 
-  <body ng-controller="weatherCtrl">
+  <body>
     
-    <h1>Forecast:</h1>
-    <div ng-repeat="item in weather">
-      <p>{{ item }}</p>  
+    <div ng-controller="timeCtrl">
+      <div>{{ currentTime | date:'EEEE, MMMM d' }}</div>
+      <div>{{ currentTime | date:'HH:mm:ss'}}</div>
     </div>
-     
+           
   </body>
 </html>
