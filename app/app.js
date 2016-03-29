@@ -1,34 +1,5 @@
 var app = angular.module('yamm', []);
 
-app.controller('timeCtrl', ['$scope', '$interval', function($scope, $interval) {
-  $scope.hideColon = true;
-  
-  $interval(() => {
-    $scope.currentTime = new Date();
-    $scope.hideColon = !$scope.hideColon;
-  }, 1000);
-}]);
-
-app.controller('weatherCtrl', ['$scope', '$interval', 'weatherService', function($scope, $interval, weatherService) {
-  fetchWeather = () => {
-    weatherService.getWeather().then(data => {
-      $scope.currentTemperature = Math.round(data.main.temp);
-    })
-    
-    weatherService.getForecast().then(data => {
-      $scope.forecasts = data.list.map(x => {
-        return {
-          'time': new Date(x.dt * 1000),
-          'temp': Math.round(x.main.temp)
-        }
-      });
-    }); 
-  }  
-  
-  fetchWeather();
-  $interval(fetchWeather, 600000);
-}]);
-
 app.factory('weatherService', ['$http', '$q', function ($http, $q){
   getData = (url) => {
     var deferred = $q.defer();
