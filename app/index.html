@@ -15,18 +15,19 @@
   <body>
     
     <div ng-controller="timeCtrl">
-      <div>{{ currentTime | date:'EEEE, MMMM d' }}</div>
-      <div>{{ currentTime | date:'HH:mm:ss'}}</div>
+      <span class="time">{{currentTime | date: 'HH'}}</span>
+      <span class="time" ng-class="{'invisible': hideColon}">:</span>
+      <span class="time">{{currentTime | date: 'mm'}}</span>      
     </div>
     <br/>
     
     <div ng-controller="weatherCtrl">
-      <div>Current temperature (F): {{ currentTemperature }}</div>
+      <div>Current temperature (F): {{ currentTemperature }}&deg F</div>
       <br/>
       
       <div ng-repeat="forecast in forecasts">
         <span>{{ forecast.time | date:'EEEE, MMMM d HH:mm' }}: </span>
-        <span>{{ forecast.temp }}</span>
+        <span>{{ forecast.temp }}&deg F</span>
       </div>
     </div>
            

@@ -1,6 +1,20 @@
 
 body {
   padding: 10px;
+  background-color: black;
+  color: white;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
 }
 
+.date {
+  font-size: 6em;  
+}
+
+.time {
+  font-size: 4em;
+}
+
+.invisible {
+  visibility: hidden;
 }
