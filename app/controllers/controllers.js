@@ -15,13 +15,12 @@ angular.module('yamm').controller('weatherCtrl',
     function ($scope, api, $interval, weatherService) {
         fetchWeather = () => {
             api.getWeather().then(data => {
-                // weatherService.getWeather().then(data => {
                 $scope.currentTemperature = Math.round(data.main.temp);
             })
         };
 
         fetchForecast = () => {
-            weatherService.getForecast().then(data => {
+            api.getForecast().then(data => {
                 $scope.forecasts = data.list.map(x => {
                     return {
                         'time': new Date(x.dt * 1000),
