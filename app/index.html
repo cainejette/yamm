@@ -4,13 +4,11 @@
   <head>
     <meta charset="utf-8" />
     <title>yamm</title>
-    <link data-require="bootstrap-css@3.1.1" data-semver="3.1.1" rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="app.css" />
-    <script data-require="angular.js@1.2.x" src="https://code.angularjs.org/1.2.16/angular.js" data-semver="1.2.16"></script>
-    <script data-require="jquery@*" data-semver="2.0.3" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-    <script data-require="bootstrap@*" data-semver="3.1.1" src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="https://code.angularjs.org/1.2.16/angular.js"></script>
     <script src="app.js"></script>
     <script src="controllers/controllers.js"></script>
+    <script src="services/weather.js"></script>
 
   </head>
 
@@ -19,7 +17,8 @@
     <div ng-controller="timeCtrl">
       <span class="time">{{currentTime | date: 'HH'}}</span>
       <span class="time" ng-class="{'invisible': hideColon}">:</span>
-      <span class="time">{{currentTime | date: 'mm'}}</span>      
+      <span class="time">{{currentTime | date: 'mm'}}</span>
+      
     </div>
     <br/>
     

@@ -1,8 +1,8 @@
-angular.module('yamm').controller('timeCtrl', 
-    ['$scope', '$interval', 
-    function($scope, $interval) {
+angular.module('yamm').controller('timeCtrl',
+    ['$scope', '$interval',
+    function ($scope, $interval) {
         $scope.hideColon = true;
-        
+
         $interval(() => {
             $scope.currentTime = new Date();
             $scope.hideColon = !$scope.hideColon;
@@ -10,23 +10,24 @@ angular.module('yamm').controller('timeCtrl',
     }]
 );
 
-angular.module('yamm').controller('weatherCtrl', 
-    ['$scope', '$interval', 'weatherService', 
-    function($scope, $interval, weatherService) {
+angular.module('yamm').controller('weatherCtrl',
+    ['$scope', 'api', '$interval', 'weatherService',
+    function ($scope, api, $interval, weatherService) {
         fetchWeather = () => {
-            weatherService.getWeather().then(data => {
-            $scope.currentTemperature = Math.round(data.main.temp);
-            }) 
+            api.getWeather().then(data => {
+                // weatherService.getWeather().then(data => {
+                $scope.currentTemperature = Math.round(data.main.temp);
+            })
         };
 
         fetchForecast = () => {
             weatherService.getForecast().then(data => {
-            $scope.forecasts = data.list.map(x => {
-                return {
-                'time': new Date(x.dt * 1000),
-                'temp': Math.round(x.main.temp)
-                }
-            });
+                $scope.forecasts = data.list.map(x => {
+                    return {
+                        'time': new Date(x.dt * 1000),
+                        'temp': Math.round(x.main.temp)
+                    }
+                });
             });
         }
 
