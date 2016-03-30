@@ -16,13 +16,16 @@ proxy.prototype.onError = (err) => {
 var router = express.Router();
 var api = proxy.createProxyServer({ changeOrigin: false });
 
+router.use((req, res, next) => {
+    console.log(req.method, req.url);
+    next(); 
+});
+
 router.get('/api/weather', (req, res) => {
-    console.log('asking for weather...:');
     api.web(req, res, { target: 'http://api.openweathermap.org/data/2.5/weather?APPID={0}&units=imperial&q=98103,us'.replace('{0}', secrets.weatherKey) });
 })
 
 router.get('/api/forecast', (req, res) => {
-    console.log('asking for forecast...:');
     api.web(req, res, { target: 'http://api.openweathermap.org/data/2.5/forecast?APPID={0}&units=imperial&q=98103,us'.replace('{0}', secrets.weatherKey) });
 })
 

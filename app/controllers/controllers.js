@@ -11,8 +11,8 @@ angular.module('yamm').controller('timeCtrl',
 );
 
 angular.module('yamm').controller('weatherCtrl',
-    ['$scope', 'api', '$interval', 'weatherService',
-    function ($scope, api, $interval, weatherService) {
+    ['$scope', 'api', '$interval',
+    function ($scope, api, $interval) {
         fetchWeather = () => {
             api.getWeather().then(data => {
                 $scope.currentTemperature = Math.round(data.main.temp);
