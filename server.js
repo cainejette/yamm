@@ -3,6 +3,7 @@ var proxy = require('http-proxy');
 var app = express();
 
 var secrets = require('./secrets.json');
+var config = require('./config.json');
 
 var port = 3000;
 
@@ -22,11 +23,21 @@ router.use((req, res, next) => {
 });
 
 router.get('/api/weather', (req, res) => {
-    api.web(req, res, { target: 'http://api.openweathermap.org/data/2.5/weather?APPID={0}&units=imperial&q=98103,us'.replace('{0}', secrets.weatherKey) });
+    api.web(req, res, { target: 
+        'http://api.openweathermap.org/data/2.5/weather?APPID={0}&units={1}&q={2}'
+            .replace('{0}', secrets.weatherKey)
+            .replace('{1}', config.units)
+            .replace('{2}', config.weather.city) 
+        });
 })
 
 router.get('/api/forecast', (req, res) => {
-    api.web(req, res, { target: 'http://api.openweathermap.org/data/2.5/forecast?APPID={0}&units=imperial&q=98103,us'.replace('{0}', secrets.weatherKey) });
+    api.web(req, res, { target: 
+        'http://api.openweathermap.org/data/2.5/forecast?APPID={0}&units={1}&q={2}'
+            .replace('{0}', secrets.weatherKey)
+            .replace('{1}', config.units)
+            .replace('{2}', config.weather.city) 
+        });
 })
 
 var GoogleMapsAPI = require('googlemaps');
