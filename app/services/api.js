@@ -18,9 +18,14 @@ angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
   getForecast = () => {
     return getData('/api/forecast');
   }
+  
+  getTravelTimes = () => {
+    return getData('/api/travel');
+  }
 
   return {
     getWeather: getWeather,
-    getForecast: getForecast
+    getForecast: getForecast,
+    getTravelTimes: getTravelTimes
   };
 }]);
