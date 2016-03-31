@@ -16,7 +16,7 @@ angular.module('yamm').controller('weatherCtrl',
         fetchWeather = () => {
             api.getWeather().then(data => {
                 $scope.currentTemperature = Math.round(data.main.temp);
-            })
+            });
         };
 
         fetchForecast = () => {
@@ -43,9 +43,30 @@ angular.module('yamm').controller('travelCtrl',
         fetchTravelTimes = () => {
             api.getTravelTimes().then(data => {
                 $scope.travelTime = data.rows[0].elements[0].duration.text;
-            })
+            });
         }
         
         fetchTravelTimes();
     }]
 );
+
+angular.module('yamm').controller('redditCtrl',
+    ['$scope', 'api', '$interval',
+    function ($scope, api, $interval) {
+        fetchTopPosts = () => {
+            api.getTopPosts().then(data => {
+                $scope.topPosts = data.data.children;
+                changeSelectedPost();
+            });
+        }
+        
+        changeSelectedPost = () => {
+            $scope.selectedPost = $scope.topPosts[Math.floor(Math.random() * $scope.topPosts.length)].data.title
+        }
+        
+        fetchTopPosts();
+        
+        $interval(fetchTopPosts, 300000);
+        $interval(changeSelectedPost, 10000);
+    }]
+)

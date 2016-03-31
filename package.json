@@ -5,6 +5,7 @@
   },
   "devDependencies": {},
   "dependencies": {
+    "curlrequest": "^0.5.7",
     "express": "^4.13.4",
     "googlemaps": "^1.4.0",
     "http-proxy": "^1.13.2"

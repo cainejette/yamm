@@ -1,6 +1,7 @@
 var express = require('express');
 var proxy = require('http-proxy');
 var app = express();
+var curl = require('curlrequest');
 
 var secrets = require('./secrets.json');
 var config = require('./config.json');
@@ -29,7 +30,7 @@ router.get('/api/weather', (req, res) => {
             .replace('{1}', config.units)
             .replace('{2}', config.weather.city) 
         });
-})
+});
 
 router.get('/api/forecast', (req, res) => {
     api.web(req, res, { target: 
@@ -38,22 +39,28 @@ router.get('/api/forecast', (req, res) => {
             .replace('{1}', config.units)
             .replace('{2}', config.weather.city) 
         });
-})
+});
 
 var GoogleMapsAPI = require('googlemaps');
 var gmAPI = new GoogleMapsAPI({key: secrets.mapKey, secure: true});
 
 router.get('/api/travel', (req, res) => {
     var params = {
-        origins: 'Seattle, WA',
-        destinations: 'Bellevue, WA',
-        units: 'imperial'
+        origins: config.travel.home,
+        destinations: config.travel.destinations[0],
+        units: config.units
     }
 
     gmAPI.distance(params, (err, results) => {
         err ? res.send(err) : res.send(results);
     });
-})
+});
+
+router.get('/api/reddit', (req, res) => {
+    curl.request('https://www.reddit.com/r/{0}/top.json?count=20'.replace('{0}', config.subreddit), (err, data) => {
+        err ? res.send(err) : res.send(data);
+    })
+});
 
 app.use('/', router);
 

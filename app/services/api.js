@@ -22,10 +22,15 @@ angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
   getTravelTimes = () => {
     return getData('/api/travel');
   }
+  
+  getTopPosts = () => {
+    return getData('/api/reddit');
+  }
 
   return {
-    getWeather: getWeather,
-    getForecast: getForecast,
-    getTravelTimes: getTravelTimes
+    getWeather,
+    getForecast,
+    getTravelTimes,
+    getTopPosts
   };
 }]);
