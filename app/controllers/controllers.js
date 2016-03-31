@@ -36,3 +36,16 @@ angular.module('yamm').controller('weatherCtrl',
         $interval(fetchForecast, 180000);
     }]
 );
+
+angular.module('yamm').controller('travelCtrl',
+    ['$scope', 'api',
+    function ($scope, api) {
+        fetchTravelTimes = () => {
+            api.getTravelTimes().then(data => {
+                $scope.travelTime = data.rows[0].elements[0].duration.text;
+            })
+        }
+        
+        fetchTravelTimes();
+    }]
+);

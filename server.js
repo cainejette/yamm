@@ -29,6 +29,21 @@ router.get('/api/forecast', (req, res) => {
     api.web(req, res, { target: 'http://api.openweathermap.org/data/2.5/forecast?APPID={0}&units=imperial&q=98103,us'.replace('{0}', secrets.weatherKey) });
 })
 
+var GoogleMapsAPI = require('googlemaps');
+var gmAPI = new GoogleMapsAPI({key: secrets.mapKey, secure: true});
+
+router.get('/api/travel', (req, res) => {
+    var params = {
+        origins: 'Seattle, WA',
+        destinations: 'Bellevue, WA',
+        units: 'imperial'
+    }
+
+    gmAPI.distance(params, (err, results) => {
+        err ? res.send(err) : res.send(results);
+    });
+})
+
 app.use('/', router);
 
 app.listen(port, () => {
