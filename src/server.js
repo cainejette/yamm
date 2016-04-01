@@ -3,6 +3,7 @@ var proxy = require('http-proxy');
 var app = express();
 var curl = require('curlrequest');
 var uuid = require('node-uuid');
+var moment = require('moment');
 
 var secrets = require('../secrets.json');
 var config = require('../config.json');
@@ -20,8 +21,8 @@ var router = express.Router();
 var api = proxy.createProxyServer({ changeOrigin: false });
 
 router.use((req, res, next) => {
-    console.log(req.method, req.url);
-    next(); 
+    console.log(moment().format('h:mm:ss a'), req.method, req.url);
+    next();
 });
 
 router.get('/api/weather', (req, res) => {
