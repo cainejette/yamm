@@ -13,13 +13,13 @@ angular.module('yamm').controller('timeCtrl',
 angular.module('yamm').controller('weatherCtrl',
     ['$scope', 'api', '$interval',
     function ($scope, api, $interval) {
-        fetchWeather = () => {
+        var fetchWeather = () => {
             api.getWeather().then(data => {
                 $scope.currentTemperature = Math.round(data.main.temp);
             });
         };
 
-        fetchForecast = () => {
+        var fetchForecast = () => {
             api.getForecast().then(data => {
                 $scope.forecasts = data.list.map(x => {
                     return {
@@ -40,7 +40,7 @@ angular.module('yamm').controller('weatherCtrl',
 angular.module('yamm').controller('travelCtrl',
     ['$scope', 'api',
     function ($scope, api) {
-        fetchTravelTimes = () => {
+        var fetchTravelTimes = () => {
             api.getTravelTimes().then(data => {
                 $scope.travelTime = data.rows[0].elements[0].duration.text;
             });
@@ -53,14 +53,14 @@ angular.module('yamm').controller('travelCtrl',
 angular.module('yamm').controller('redditCtrl',
     ['$scope', 'api', '$interval',
     function ($scope, api, $interval) {
-        fetchTopPosts = () => {
+        var fetchTopPosts = () => {
             api.getTopPosts().then(data => {
                 $scope.topPosts = data.data.children;
                 changeSelectedPost();
             });
         }
         
-        changeSelectedPost = () => {
+        var changeSelectedPost = () => {
             $scope.selectedPost = $scope.topPosts[Math.floor(Math.random() * $scope.topPosts.length)].data.title
         }
         
