@@ -62,6 +62,34 @@ router.get('/api/reddit', (req, res) => {
     })
 });
 
+router.get('/api/todo', (req, res) => {
+    var options = {
+        url: 'https://todoist.com/API/v6/sync',
+        data: {
+            token: secrets.todoistKey,
+            seq_no: 0,
+            resource_types: '["items"]'
+        }
+    }
+   curl.request(options, (err, data) => {
+       if (err) {
+           res.send(err);
+       }
+
+       var todos = JSON.parse(data).Items.map(todo => todo.content);
+
+       // filter for todos of form: Completed: "title" and strip down to just title
+       var completeTodos = todos.filter(todo => todo.includes("Completed:"))
+            .map(todo => todo.substring(todo.indexOf('"') + 1, todo.length - 1));
+       var openTodos = todos.filter(todo => !todo.includes("Completed:"));
+       var actualRemainingTodos = openTodos.filter(todo => {
+           return completeTodos.indexOf(todo) === -1;
+       });
+
+       res.send(actualRemainingTodos);
+   })
+});
+
 app.use('/', router);
 
 app.listen(port, () => {

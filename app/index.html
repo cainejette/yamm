@@ -27,6 +27,12 @@
     </div>
     <br/>
     
+    <div ng-controller="todoCtrl">
+      <div ng-repeat="todo in todos">
+        <div>{{ todo }}</div>
+    </div>
+    <br/>
+    
     <div ng-controller="redditCtrl">
       <div>{{ selectedPost }}</div>
     </div>

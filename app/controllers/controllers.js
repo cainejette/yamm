@@ -70,3 +70,18 @@ angular.module('yamm').controller('redditCtrl',
         $interval(changeSelectedPost, 10000);
     }]
 )
+
+angular.module('yamm').controller('todoCtrl',
+    ['$scope', 'api', '$interval',
+    function ($scope, api, $interval) {
+        fetchTodos = () => {
+            api.getTodos().then(data => {
+                $scope.todos = data;
+            });
+        }
+        
+        fetchTodos();
+        
+        // $interval(fetchTodos, 180000);
+    }]
+)

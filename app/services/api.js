@@ -26,11 +26,16 @@ angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
   getTopPosts = () => {
     return getData('/api/reddit');
   }
+  
+  getTodos = () => {
+    return getData('/api/todo');
+  }
 
   return {
     getWeather,
     getForecast,
     getTravelTimes,
-    getTopPosts
+    getTopPosts,
+    getTodos
   };
 }]);
