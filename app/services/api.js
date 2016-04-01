@@ -5,6 +5,7 @@ angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
       .success(data => deferred.resolve(data))
       .error(err => {
         console.log('Error fetching from: ' + url);
+        console.dir(new Date());
         deferred.reject(err);
       });
 
