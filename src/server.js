@@ -3,8 +3,8 @@ var proxy = require('http-proxy');
 var app = express();
 var curl = require('curlrequest');
 
-var secrets = require('./secrets.json');
-var config = require('./config.json');
+var secrets = require('../secrets.json');
+var config = require('../config.json');
 
 var port = 3000;
 
@@ -95,3 +95,7 @@ app.use('/', router);
 app.listen(port, () => {
     console.log('Server listening on port ' + port);
 });
+
+
+
+

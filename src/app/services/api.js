@@ -1,5 +1,5 @@
 angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
-  getData = (url) => {
+  var getData = (url) => {
     var deferred = $q.defer();
     $http.get(url)
       .success(data => deferred.resolve(data))
@@ -12,23 +12,23 @@ angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
     return deferred.promise;
   }
 
-  getWeather = () => {
+  var getWeather = () => {
     return getData('/api/weather');
   }
   
-  getForecast = () => {
+  var getForecast = () => {
     return getData('/api/forecast');
   }
   
-  getTravelTimes = () => {
+  var getTravelTimes = () => {
     return getData('/api/travel');
   }
   
-  getTopPosts = () => {
+  var getTopPosts = () => {
     return getData('/api/reddit');
   }
   
-  getTodos = () => {
+  var getTodos = () => {
     return getData('/api/todo');
   }
 
