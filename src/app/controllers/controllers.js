@@ -82,6 +82,6 @@ angular.module('yamm').controller('todoCtrl',
 
             fetchTodos();
 
-            // $interval(fetchTodos, 180000);
+            $interval(fetchTodos, 180000);
         }]
 )
