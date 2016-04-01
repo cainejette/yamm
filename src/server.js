@@ -26,25 +26,27 @@ router.use((req, res, next) => {
 });
 
 router.get('/api/weather', (req, res) => {
-    api.web(req, res, { target: 
+    api.web(req, res, {
+        target:
         'http://api.openweathermap.org/data/2.5/weather?APPID={0}&units={1}&q={2}'
             .replace('{0}', secrets.weatherKey)
             .replace('{1}', config.units)
-            .replace('{2}', config.weather.city) 
-        });
+            .replace('{2}', config.weather.city)
+    });
 });
 
 router.get('/api/forecast', (req, res) => {
-    api.web(req, res, { target: 
+    api.web(req, res, {
+        target:
         'http://api.openweathermap.org/data/2.5/forecast?APPID={0}&units={1}&q={2}'
             .replace('{0}', secrets.weatherKey)
             .replace('{1}', config.units)
-            .replace('{2}', config.weather.city) 
-        });
+            .replace('{2}', config.weather.city)
+    });
 });
 
 var GoogleMapsAPI = require('googlemaps');
-var gmAPI = new GoogleMapsAPI({key: secrets.mapKey, secure: true});
+var gmAPI = new GoogleMapsAPI({ key: secrets.mapKey, secure: true });
 
 router.get('/api/travel', (req, res) => {
     var params = {
@@ -111,4 +113,8 @@ router.get('/api/todo', (req, res) => {
     })
 });
 
+app.use('/', router);
 
+app.listen(port, () => {
+    console.log('Server listening on port ' + port);
+});
