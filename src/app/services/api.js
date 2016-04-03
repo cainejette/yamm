@@ -13,7 +13,12 @@ angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
   }
 
   var getWeather = () => {
-    return getData('/api/weather');
+    return getData('/api/weather').then(data => {
+      return {
+        'temp': Math.round(data.main.temp),
+        'icon': data.weather[0].id  
+      }
+    });
   }
 
   var getForecast = () => {

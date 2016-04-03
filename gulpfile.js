@@ -9,7 +9,7 @@ gulp.task('default', ['clean', 'copy', 'babelify', 'dev'], () => {
 });
 
 gulp.task('copy', ['clean'], () => {
-  return gulp.src(['src/**/*.html' ,'src/**/*.css'])
+  return gulp.src(['src/**/*.html' ,'src/**/*.css', 'src/**/*.eot', 'src/**/*.svg', 'src/**/*.tff', 'src/**/*.wof*'])
     .pipe(gulp.dest('dist/'));
 });
 
@@ -27,6 +27,7 @@ gulp.task('clean', () => {
 gulp.task('dev', ['clean', 'copy', 'babelify'], () => {
   nodemon({
     script: 'dist/server.js',
+    ext: 'js html css',
     ignore: ['dist'],
     tasks: ['clean', 'copy', 'babelify']
   });

@@ -15,7 +15,9 @@ angular.module('yamm').controller('weatherCtrl',
         function ($scope, api, $interval) {
             var fetchWeather = () => {
                 api.getWeather().then(data => {
-                    $scope.currentTemperature = Math.round(data.main.temp);
+                    $scope.currentTemperature = data.temp;
+                    // $scope.icon = "http://openweathermap.org/img/w/" + data.icon + ".png";
+                    $scope.icon = "wi-owm-" + data.icon;
                 });
             };
 

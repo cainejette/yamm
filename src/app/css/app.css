@@ -1,5 +1,5 @@
 
-body {
+html {
   padding: 10px;
   background-color: black;
   color: white;
@@ -12,9 +12,21 @@ body {
 }
 
 .time {
-  font-size: 4em;
+  font-size: 6em;
 }
 
 .invisible {
   visibility: hidden;
+}
+
+.info {
+  margin-left: 2rem;
+}
+
+i {
+  font-family: 'weathericons';
+  height: 50px;
+  width: 50px;
+  display: block;
+  color: white;
 }
