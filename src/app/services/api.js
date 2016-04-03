@@ -36,12 +36,17 @@ angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
   var getTodos = () => {
     return getData('/api/todo');
   }
+  
+  var getXkcd = () => {
+    return getData('/api/xkcd');
+  }
 
   return {
     getWeather,
     getForecast,
     getTravelTimes,
     getTopPosts,
-    getTodos
+    getTodos,
+    getXkcd
   };
 }]);

@@ -87,3 +87,21 @@ angular.module('yamm').controller('todoCtrl',
             $interval(fetchTodos, 60000);
         }]
 )
+
+angular.module('yamm').controller('xkcdCtrl',
+    ['$scope', 'api', '$interval',
+        function ($scope, api, $interval) {
+            var fetchComic = () => {
+                api.getXkcd().then(data => {
+                    $scope.title = data.title;
+                    console.dir(data.img);
+                    $scope.comic = data.img;
+                    $scope.altText = data.alt;
+                });
+            }
+
+            fetchComic();
+
+            $interval(fetchComic, 60000);
+        }]
+)

@@ -113,6 +113,12 @@ router.get('/api/todo', (req, res) => {
     })
 });
 
+router.get('/api/xkcd', (req, res) => {
+    curl.request('http://xkcd.com/info.0.json', (err, data) => {
+        err ? res.send(err) : res.send(data);
+    })
+});
+
 app.use('/', router);
 
 app.listen(port, () => {

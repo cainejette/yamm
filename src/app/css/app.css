@@ -42,3 +42,12 @@ i {
 .reddit {
   margin-top: 200px;
 }
+
+.xkcd {
+  font-size: 2.5em;
+  margin-top: 200px;
+}
+
+.alt {
+  font-size: .75em;
+}
