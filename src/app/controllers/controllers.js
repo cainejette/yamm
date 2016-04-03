@@ -69,7 +69,7 @@ angular.module('yamm').controller('redditCtrl',
             fetchTopPosts();
 
             $interval(fetchTopPosts, 300000);
-            $interval(changeSelectedPost, 10000);
+            $interval(changeSelectedPost, 30000);
         }]
 )
 
