@@ -114,7 +114,9 @@ router.get('/api/todo', (req, res) => {
 });
 
 router.get('/api/xkcd', (req, res) => {
-    curl.request('http://xkcd.com/info.0.json', (err, data) => {
+    // 1662 xkcd comics currently. find smarter way to do this.
+    var comic = Math.floor(Math.random() * 1662)
+    curl.request('http://xkcd.com/{0}/info.0.json'.replace('{0}', comic), (err, data) => {
         err ? res.send(err) : res.send(data);
     })
 });

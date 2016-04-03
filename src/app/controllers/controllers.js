@@ -91,17 +91,21 @@ angular.module('yamm').controller('todoCtrl',
 angular.module('yamm').controller('xkcdCtrl',
     ['$scope', 'api', '$interval',
         function ($scope, api, $interval) {
-            var fetchComic = () => {
+            $scope.comics = [];
+            
+            $scope.showXkcd = true;
+            var fetchComic = () => {                
                 api.getXkcd().then(data => {
-                    $scope.title = data.title;
-                    console.dir(data.img);
-                    $scope.comic = data.img;
-                    $scope.altText = data.alt;
+                    $scope.comics[0] = {
+                        'title': data.title,
+                        'comic': data.img,
+                        'alt': data.alt
+                    };
                 });
             }
 
             fetchComic();
 
-            $interval(fetchComic, 60000);
+            $interval(fetchComic, 30000);
         }]
 )

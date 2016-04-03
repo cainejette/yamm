@@ -1,1 +1,1 @@
-var app = angular.module('yamm', []);
+angular.module('yamm', ['ngAnimate']);
