@@ -74,11 +74,13 @@
     </div>-->
 
     <div class="row">
-      <div class="col-sm-6 col-sm-offset-3 text-center xkcd" ng-controller="xkcdCtrl">
+      <div class="col-sm-8 col-sm-offset-2 text-center xkcd" ng-controller="xkcdCtrl">
         <div ng-repeat="comic in comics">
           <div ng-show="$first">
             <div>{{ comic.title }}</div>
-            <img ng-src="{{ comic.comic }}">
+            <div class="comic">
+              <img ng-src="{{ comic.comic }}">
+            </div>
             <div class="alt">{{ comic.alt }}</div>
           </div>
         </div>
