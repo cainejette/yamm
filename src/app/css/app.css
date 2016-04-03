@@ -1,18 +1,21 @@
 
-html {
-  padding: 10px;
+.yamm {
   background-color: black;
   color: white;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-
 }
 
-.date {
-  font-size: 6em;  
+body {
+  padding: 10px;
+  background-color: black !important;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1 {
+  font-size: 6em !important;
 }
 
 .time {
-  font-size: 6em;
+  font-size: 7em;
 }
 
 .invisible {
@@ -21,6 +24,7 @@ html {
 
 .info {
   margin-left: 2rem;
+  font-size: 3em;
 }
 
 i {
@@ -29,4 +33,12 @@ i {
   width: 50px;
   display: block;
   color: white;
+}
+
+.todos {
+  float: right;
+}
+
+.reddit {
+  margin-top: 200px;
 }

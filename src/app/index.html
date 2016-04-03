@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html ng-app="yamm">
 
-  <head>
-    <meta charset="utf-8" />
-    <title>yamm</title>
-    <link rel="stylesheet" href="css/app.css" />
-    <link rel="stylesheet" type="text/css" href="css/weather-icons.css" />
-    <script src="https://code.angularjs.org/1.2.16/angular.js"></script>
-    <script src="app.js"></script>
-    <script src="controllers/controllers.js"></script>
-    <script src="services/api.js"></script>
-    
-    <style class="cp-pen-styles">@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+<head>
+  <meta charset="utf-8" />
+  <title>yamm</title>
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" type="text/css" href="css/weather-icons.css" />
+  <script src="https://code.angularjs.org/1.2.16/angular.js"></script>
+  <script src="app.js"></script>
+  <script src="controllers/controllers.js"></script>
+  <script src="services/api.js"></script>
+
+  <!--/*<style class="cp-pen-styles">@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
 @font-face {
   font-family: 'weathericons';
   src: url("//cdnjs.cloudflare.com/ajax/libs/weather-icons/1.2/fonts/weathericons-regular-webfont.eot");
@@ -19,53 +19,63 @@
   font-weight: normal;
   font-style: normal;
 }
-</style>
-<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+</style>-->
+  <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  </head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+    crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+    crossorigin="anonymous"></script>
+</head>
 
-  <body>
-    
-    <div ng-controller="timeCtrl">
-      <span class="time">{{currentTime | date: 'HH'}}</span>
-      <span class="time" ng-class="{'invisible': hideColon}">:</span>
-      <span class="time">{{currentTime | date: 'mm'}}</span>
-      
-    </div>
-    <br/>
-    
-    <div ng-controller="travelCtrl">
-      <h3>Travel time</h3>
-      <div class="info">{{ travelTime }} to CLC</div>
-    </div>
-    <br/>
-    
-    <div ng-controller="todoCtrl">
-      <h3>Todo</h3>
-      <div ng-repeat="todo in todos">
-        <div class="info">{{ todo }}</div>
-    </div>
-    <br/>
-    
-    <div ng-controller="redditCtrl">
-      <div>{{ selectedPost }}</div>
-    </div>
-    </br/>
-    
-    <div ng-controller="weatherCtrl">
-      <h3>Temperature</h3>
-      <div class="info">{{ currentTemperature }}&deg F</div>
-      <div class="info">{{ icon }}</div>
-      <i ng-class="wi {{ icon }}"></i>
-      <br/>
-      
-      <div ng-repeat="forecast in forecasts">
-        <span>{{ forecast.time | date:'EEEE, MMMM d HH:mm' }}: </span>
-        <span>{{ forecast.temp }}&deg F</span>
+<body>
+
+  <div class="yamm container-fluid">
+    <div class="row">
+      <div class="col-sm-6">
+        <div ng-controller="timeCtrl">
+          <span class="time">{{currentTime | date: 'HH'}}</span>
+          <span class="time" ng-class="{'invisible': hideColon}">:</span>
+          <span class="time">{{currentTime | date: 'mm'}}</span>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="todos text-right" ng-controller="todoCtrl">
+          <h1>Todo</h1>
+          <div ng-repeat="todo in todos">
+            <div class="info">{{ todo }}</div>
+          </div>
+        </div>
       </div>
     </div>
-           
-  </body>
+
+    <div class="row">
+      <div class="col-sm-12" ng-controller="weatherCtrl">
+        <!--<h1>Temp</h1>-->
+        <div class="info">{{ currentTemperature }}&deg F</div>
+        <!--<div class="info">{{ icon }}</div>-->
+        <!--<i ng-class="wi {{ icon }}"></i>-->
+        <!--<div ng-repeat="forecast in forecasts">
+            <span>{{ forecast.time | date:'EEEE, MMMM d HH:mm' }}: </span>
+            <span>{{ forecast.temp }}&deg F</span>
+          </div>-->
+      </div>
+
+
+      <div class="col-sm-12" ng-controller="travelCtrl">
+        <!--<h1>Travel</h1>-->
+        <div class="info">{{ travelTime }} to CLC</div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12 text-center reddit" ng-controller="redditCtrl">
+        <div class="info">{{ selectedPost }}</div>
+      </div>
+    </div>
+  </div>
+</body>
+
 </html>
