@@ -41,36 +41,40 @@
         </div>
       </div>
 
-      <div class="col-sm-6">
+      <div class="col-sm-6 right">
         <div class="todos text-right" ng-controller="todoCtrl">
           <div ng-repeat="todo in todos">
             <div class="info">{{ todo }}</div>
           </div>
         </div>
         
-        <div class="jobs text-right" ng-controller="jobCtrl">
-          <div>Job posts: {{ jobs.length }}</div>
-          <div>Most recent: {{ jobs[0].location }}</div>
-        </div>
+        
         
       </div>
     </div>
 
     <div class="row">
-      <div class="col-sm-12" ng-controller="weatherCtrl">
-        <div class="info">{{ currentTemperature }}&deg F</div>
-        <!--<div class="info">{{ icon }}</div>-->
-        <!--<i ng-class="wi {{ icon }}"></i>-->
-        <!--<div ng-repeat="forecast in forecasts">
-            <span>{{ forecast.time | date:'EEEE, MMMM d HH:mm' }}: </span>
-            <span>{{ forecast.temp }}&deg F</span>
-          </div>-->
-      </div>
+      <div class="col-sm-6">
+        <div ng-controller="weatherCtrl">
+          <div class="info">{{ currentTemperature }}&deg F</div>
+          <!--<div class="info">{{ icon }}</div>-->
+          <!--<i ng-class="wi {{ icon }}"></i>-->
+          <!--<div ng-repeat="forecast in forecasts">
+              <span>{{ forecast.time | date:'EEEE, MMMM d HH:mm' }}: </span>
+              <span>{{ forecast.temp }}&deg F</span>
+            </div>-->
+        </div>
 
-      <div class="col-sm-12" ng-controller="travelCtrl">
-        <div class="info">{{ travelTime }} to CLC</div>
+        <div ng-controller="travelCtrl">
+          <div class="info">{{ travelTime }} to CLC</div>
+        </div>
       </div>
-
+      <div class="col-sm-6">
+        <div class="jobs text-right" ng-controller="jobCtrl">
+          <div>Job posts: {{ jobs.length }}</div>
+          <div>Most recent: {{ jobs[0].location }}</div>
+        </div>
+      </div>
     </div>
 
     <!--<div class="row">
