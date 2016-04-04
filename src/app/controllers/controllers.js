@@ -106,6 +106,6 @@ angular.module('yamm').controller('xkcdCtrl',
 
             fetchComic();
 
-            $interval(fetchComic, 30000);
+            $interval(fetchComic, 45000);
         }]
 )
