@@ -47,6 +47,12 @@
             <div class="info">{{ todo }}</div>
           </div>
         </div>
+        
+        <div class="jobs text-right" ng-controller="jobCtrl">
+          <div>Job posts: {{ jobs.length }}</div>
+          <div>Most recent: {{ jobs[0].location }}</div>
+        </div>
+        
       </div>
     </div>
 

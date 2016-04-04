@@ -40,6 +40,10 @@ angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
   var getXkcd = () => {
     return getData('/api/xkcd');
   }
+  
+  var getJobs = () => {
+    return getData('/api/jobs/');
+  }
 
   return {
     getWeather,
@@ -47,6 +51,7 @@ angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
     getTravelTimes,
     getTopPosts,
     getTodos,
-    getXkcd
+    getXkcd,
+    getJobs
   };
 }]);

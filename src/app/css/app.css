@@ -3,6 +3,7 @@
   background-color: black;
   color: white;
   position: relative;
+  text-transform: lowercase;
 }
 
 body {
@@ -37,6 +38,11 @@ i {
 }
 
 .todos {
+  float: right;
+  margin-top: 30px;
+}
+
+.jobs {
   float: right;
   margin-top: 30px;
 }

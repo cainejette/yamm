@@ -109,3 +109,20 @@ angular.module('yamm').controller('xkcdCtrl',
             $interval(fetchComic, 45000);
         }]
 )
+
+angular.module('yamm').controller('jobCtrl',
+    ['$scope', 'api', '$interval',
+        function ($scope, api, $interval) {
+            $scope.jobs = [];
+
+            var fetchJobs = () => {
+                api.getJobs().then(data => {
+                    $scope.jobs = data;
+                });
+            }
+
+            fetchJobs();
+
+            $interval(fetchJobs, 3600000);
+        }]
+)

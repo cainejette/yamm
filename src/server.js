@@ -4,6 +4,7 @@ var app = express();
 var curl = require('curlrequest');
 var uuid = require('node-uuid');
 var moment = require('moment');
+var cheerio = require('cheerio');
 
 var secrets = require('../secrets.json');
 var config = require('../config.json');
@@ -120,6 +121,49 @@ router.get('/api/xkcd', (req, res) => {
         err ? res.send(err) : res.send(data);
     })
 });
+
+router.get('/api/jobs', (req, res) => {
+    curl.request('http://www.wiaa.com/Jobs.aspx', (err, data) => {
+        if (err) res.send(err);
+        
+        var $ = cheerio.load(data);
+        
+        var dates = [];
+        var mixed = [];
+
+        // grab table cells we care about  
+        $('td[valign=top]').each(function(i, elem) {
+        // dates are formatted differently from position and location tds
+        elem.children.filter(child => child.name == 'a' && child.children[0].data).forEach(child => {
+            dates.push(child.children[0].data); 
+        });
+        
+        // positions and locations are in the same array here, so we separate later
+        elem.children.filter(child => child.data && child.data.trim().length > 0).forEach(child => {
+            mixed.push(child.data.trim());
+        })
+        });
+
+        var positions = [];
+        var locations = [];      
+        mixed.forEach((item, index) => {
+        index % 2 == 0 ? positions.push(item) : locations.push(item);
+        })
+        
+        // populate our final array of objects
+        var jobs = [];
+        dates.forEach((date, index) => {
+            jobs.push({
+                'date': date,
+                'position': positions[index],
+                'location': locations[index]
+            });
+        });
+        
+        var volleyballJobs = jobs.filter(job => job.position.toLowerCase().includes('volleyball'));
+        res.send(volleyballJobs);
+    })
+})
 
 app.use('/', router);
 
