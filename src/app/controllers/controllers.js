@@ -1,8 +1,34 @@
 angular.module('yamm').controller('timeCtrl',
-    ['$scope', '$interval',
-        function ($scope, $interval) {
+    ['$scope', '$interval', 'AnnyangService',
+        function ($scope, $interval, AnnyangService) {
             $scope.hideColon = true;
 
+            var vm = this;
+
+            vm.init = function() {
+                vm.clearResults();
+
+                AnnyangService.addCommand('*allSpeech', function(allSpeech) {
+                    console.debug(allSpeech);
+                    vm.addResult(allSpeech);
+                });
+                
+                AnnyangService.start();
+            };
+            
+            vm.addResult = function(result) {
+                vm.results.push({
+                    content: result,
+                    date: new Date()
+                });
+            };
+            
+            vm.clearResults = function() {
+                vm.results = [];
+            };
+
+            vm.init();
+            
             $interval(() => {
                 $scope.currentTime = new Date();
                 $scope.hideColon = !$scope.hideColon;
