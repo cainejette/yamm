@@ -2,13 +2,7 @@ angular.module('yamm').controller('timeCtrl',
     ['$scope', '$interval',
         function ($scope, $interval) {
             $scope.hideColon = true;
-
-            annyang.start();
             $scope.visible = true;
-            $scope.$on('hide', (event, arg) => {
-                $scope.visible = false;
-                console.log('got your message:', arg)
-            })
             
             $interval(() => {
                 $scope.currentTime = new Date();
@@ -23,7 +17,6 @@ angular.module('yamm').controller('weatherCtrl',
             var getWeather = () => {
                 api.getWeather().then(data => {
                     $scope.currentTemperature = data.temp;
-                    // $scope.icon = "http://openweathermap.org/img/w/" + data.icon + ".png";
                     $scope.icon = "wi-owm-" + data.icon;
                 });
             };
@@ -100,7 +93,7 @@ angular.module('yamm').controller('xkcdCtrl',
         function ($scope, api, $interval, $rootScope) {
             $scope.comics = [];
             
-            $scope.showXkcd = true;
+            $scope.visible = true;
             var getComic = () => {                
                 api.getXkcd().then(data => {
                     $scope.comics[0] = {
@@ -110,26 +103,14 @@ angular.module('yamm').controller('xkcdCtrl',
                     };
                 });
             }
-
-            var commands = {
-                'hide comics': () => {
-                    $scope.showXkcd = false;
-                    console.log('hiding...');
-                    $scope.$apply();
-                },
-                'show comics': () => {
-                    $scope.showXkcd = true;
-                    console.log('showing...');
-                    $scope.$apply();
-                },
-                'next comic': () => {
-                    $scope.showXkcd = true;
-                    getComic();
-                    $rootScope.$broadcast('hide', 'hi!');
-                    $scope.$apply();
-                }
-            };
-            annyang.addCommands(commands);
+            
+            $scope.$on('hide xkcd', (event, arg) => {
+                $scope.visible = false;
+            });
+            
+            $scope.$on('show xkcd', (event, arg) => {
+                $scope.visible = true;
+            })
             
             getComic();
 
@@ -151,5 +132,23 @@ angular.module('yamm').controller('jobCtrl',
             getJobs();
 
             $interval(getJobs, 3600000);
+        }]
+)
+
+angular.module('yamm').controller('voiceCtrl',
+    ['$scope', '$rootScope', 
+        function($scope, $rootScope) {
+            
+            var commands = {
+                'hide xkcd': () => {
+                    $rootScope.$broadcast('hide xkcd');
+                },
+                'show xkcd': () => {
+                    $rootScope.$broadcast('show xkcd');
+                }
+            };
+            
+            annyang.addCommands(commands);
+            annyang.start();
         }]
 )
