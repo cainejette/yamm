@@ -184,11 +184,15 @@ angular.module('yamm').controller('voiceCtrl',
     ['$scope', '$rootScope', 
         function($scope, $rootScope) {
             
+            $scope.command = [];
+            
             var commands = {
-                'hide': () => {
+                'go away': () => {
+                    $scope.command = ['go away'];
                     $rootScope.$broadcast('hide');
                 },
-                'show': () => {
+                'come back': () => {
+                    $scope.command = ['come back'];
                     $rootScope.$broadcast('show');
                 }
             };
