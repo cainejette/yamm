@@ -20,7 +20,7 @@ angular.module('yamm').controller('timeCtrl',
 angular.module('yamm').controller('weatherCtrl',
     ['$scope', 'api', '$interval',
         function ($scope, api, $interval) {
-            var fetchWeather = () => {
+            var getWeather = () => {
                 api.getWeather().then(data => {
                     $scope.currentTemperature = data.temp;
                     // $scope.icon = "http://openweathermap.org/img/w/" + data.icon + ".png";
@@ -28,7 +28,7 @@ angular.module('yamm').controller('weatherCtrl',
                 });
             };
 
-            var fetchForecast = () => {
+            var getForecast = () => {
                 api.getForecast().then(data => {
                     $scope.forecasts = data.list.map(x => {
                         return {
@@ -39,30 +39,30 @@ angular.module('yamm').controller('weatherCtrl',
                 });
             }
 
-            fetchWeather();
-            fetchForecast();
-            $interval(fetchWeather, 600000);
-            $interval(fetchForecast, 180000);
+            getWeather();
+            getForecast();
+            $interval(getWeather, 600000);
+            $interval(getForecast, 180000);
         }]
 );
 
 angular.module('yamm').controller('travelCtrl',
     ['$scope', 'api',
         function ($scope, api) {
-            var fetchTravelTimes = () => {
+            var getTravelTimes = () => {
                 api.getTravelTimes().then(data => {
                     $scope.travelTime = data.rows[0].elements[0].duration.text;
                 });
             }
 
-            fetchTravelTimes();
+            getTravelTimes();
         }]
 );
 
 angular.module('yamm').controller('redditCtrl',
     ['$scope', 'api', '$interval',
         function ($scope, api, $interval) {
-            var fetchTopPosts = () => {
+            var getTopPosts = () => {
                 api.getTopPosts().then(data => {
                     $scope.topPosts = data.data.children;
                     changeSelectedPost();
@@ -73,9 +73,9 @@ angular.module('yamm').controller('redditCtrl',
                 $scope.selectedPost = $scope.topPosts[Math.floor(Math.random() * $scope.topPosts.length)].data.title
             }
 
-            fetchTopPosts();
+            getTopPosts();
 
-            $interval(fetchTopPosts, 300000);
+            $interval(getTopPosts, 300000);
             $interval(changeSelectedPost, 30000);
         }]
 )
@@ -83,15 +83,15 @@ angular.module('yamm').controller('redditCtrl',
 angular.module('yamm').controller('todoCtrl',
     ['$scope', 'api', '$interval',
         function ($scope, api, $interval) {
-            var fetchTodos = () => {
+            var getTodos = () => {
                 api.getTodos().then(data => {
                     $scope.todos = data;
                 });
             }
 
-            fetchTodos();
+            getTodos();
 
-            $interval(fetchTodos, 60000);
+            $interval(getTodos, 60000);
         }]
 )
 
@@ -101,7 +101,7 @@ angular.module('yamm').controller('xkcdCtrl',
             $scope.comics = [];
             
             $scope.showXkcd = true;
-            var fetchComic = () => {                
+            var getComic = () => {                
                 api.getXkcd().then(data => {
                     $scope.comics[0] = {
                         'title': data.title,
@@ -124,16 +124,16 @@ angular.module('yamm').controller('xkcdCtrl',
                 },
                 'next comic': () => {
                     $scope.showXkcd = true;
-                    fetchComic();
+                    getComic();
                     $rootScope.$broadcast('hide', 'hi!');
                     $scope.$apply();
                 }
             };
             annyang.addCommands(commands);
             
-            fetchComic();
+            getComic();
 
-            $interval(fetchComic, 45000);
+            $interval(getComic, 45000);
         }]
 )
 
@@ -142,14 +142,14 @@ angular.module('yamm').controller('jobCtrl',
         function ($scope, api, $interval) {
             $scope.jobs = [];
 
-            var fetchJobs = () => {
+            var getJobs = () => {
                 api.getJobs().then(data => {
                     $scope.jobs = data;
                 });
             }
 
-            fetchJobs();
+            getJobs();
 
-            $interval(fetchJobs, 3600000);
+            $interval(getJobs, 3600000);
         }]
 )
