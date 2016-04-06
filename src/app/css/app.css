@@ -29,6 +29,10 @@ h1 {
   font-size: 2em;
 }
 
+.weather {
+    text-transform: uppercase;
+}
+
 i {
   font-family: 'weathericons';
   height: 50px;

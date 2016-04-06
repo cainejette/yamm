@@ -4,6 +4,14 @@ angular.module('yamm').controller('timeCtrl',
             $scope.hideColon = true;
             $scope.visible = true;
             
+            $scope.$on('hide', (event, arg) => {
+                $scope.visible = false;
+            });
+            
+            $scope.$on('show', (event, arg) => {
+                $scope.visible = true;
+            })
+
             $interval(() => {
                 $scope.currentTime = new Date();
                 $scope.hideColon = !$scope.hideColon;
@@ -31,6 +39,15 @@ angular.module('yamm').controller('weatherCtrl',
                     });
                 });
             }
+            
+            $scope.visible = true;            
+            $scope.$on('hide', (event, arg) => {
+                $scope.visible = false;
+            });
+            
+            $scope.$on('show', (event, arg) => {
+                $scope.visible = true;
+            })
 
             getWeather();
             getForecast();
@@ -47,6 +64,15 @@ angular.module('yamm').controller('travelCtrl',
                     $scope.travelTime = data.rows[0].elements[0].duration.text;
                 });
             }
+            
+            $scope.visible = true;            
+            $scope.$on('hide', (event, arg) => {
+                $scope.visible = false;
+            });
+            
+            $scope.$on('show', (event, arg) => {
+                $scope.visible = true;
+            })
 
             getTravelTimes();
         }]
@@ -82,6 +108,16 @@ angular.module('yamm').controller('todoCtrl',
                 });
             }
 
+            $scope.visible = true;            
+            $scope.$on('hide', (event, arg) => {
+                $scope.visible = false;
+            });
+            
+            $scope.$on('show', (event, arg) => {
+                $scope.visible = true;
+            })
+
+
             getTodos();
 
             $interval(getTodos, 60000);
@@ -93,7 +129,6 @@ angular.module('yamm').controller('xkcdCtrl',
         function ($scope, api, $interval, $rootScope) {
             $scope.comics = [];
             
-            $scope.visible = true;
             var getComic = () => {                
                 api.getXkcd().then(data => {
                     $scope.comics[0] = {
@@ -104,11 +139,12 @@ angular.module('yamm').controller('xkcdCtrl',
                 });
             }
             
-            $scope.$on('hide xkcd', (event, arg) => {
+            $scope.visible = true;
+            $scope.$on('hide', (event, arg) => {
                 $scope.visible = false;
             });
             
-            $scope.$on('show xkcd', (event, arg) => {
+            $scope.$on('show', (event, arg) => {
                 $scope.visible = true;
             })
             
@@ -129,6 +165,15 @@ angular.module('yamm').controller('jobCtrl',
                 });
             }
 
+            $scope.visible = true;            
+            $scope.$on('hide', (event, arg) => {
+                $scope.visible = false;
+            });
+            
+            $scope.$on('show', (event, arg) => {
+                $scope.visible = true;
+            })
+
             getJobs();
 
             $interval(getJobs, 3600000);
@@ -140,11 +185,11 @@ angular.module('yamm').controller('voiceCtrl',
         function($scope, $rootScope) {
             
             var commands = {
-                'hide xkcd': () => {
-                    $rootScope.$broadcast('hide xkcd');
+                'hide': () => {
+                    $rootScope.$broadcast('hide');
                 },
-                'show xkcd': () => {
-                    $rootScope.$broadcast('show xkcd');
+                'show': () => {
+                    $rootScope.$broadcast('show');
                 }
             };
             

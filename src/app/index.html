@@ -25,6 +25,7 @@
   <div class="yamm container-fluid">
     <div class="row">
       <div class="col-sm-6">
+        <div ng-controller="voiceCtrl"></div>
         <div ng-controller="timeCtrl">
           <div ng-if="visible">
             <span class="time">{{currentTime | date: 'HH'}}</span>
@@ -36,7 +37,7 @@
 
       <div class="col-sm-6 right">
         <div class="todos text-right" ng-controller="todoCtrl">
-          <div ng-repeat="todo in todos">
+          <div ng-repeat="todo in todos" ng-if="visible">
             <div class="info">{{ todo }}</div>
           </div>
         </div>
@@ -46,17 +47,19 @@
     <div class="row">
       <div class="col-sm-6">
         <div ng-controller="weatherCtrl">
-          <div class="info">{{ currentTemperature }}&deg F</div>
+          <div class="weather info" ng-if="visible">{{ currentTemperature }}&deg F</div>
         </div>
 
         <div ng-controller="travelCtrl">
-          <div class="info">{{ travelTime }} to CLC</div>
+          <div class="info" ng-if="visible">{{ travelTime }} to CLC</div>
         </div>
       </div>
       <div class="col-sm-6">
         <div class="jobs text-right" ng-controller="jobCtrl">
-          <div>Job posts: {{ jobs.length }}</div>
-          <div>Most recent: {{ jobs[0].location }}</div>
+          <div ng-if="visible">
+            <div>Job posts: {{ jobs.length }}</div>
+            <div>Most recent: {{ jobs[0].location }}</div>
+          </div>
         </div>
       </div>
     </div>
