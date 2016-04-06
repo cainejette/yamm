@@ -4,6 +4,11 @@ angular.module('yamm').controller('timeCtrl',
             $scope.hideColon = true;
 
             annyang.start();
+            $scope.visible = true;
+            $scope.$on('hide', (event, arg) => {
+                $scope.visible = false;
+                console.log('got your message:', arg)
+            })
             
             $interval(() => {
                 $scope.currentTime = new Date();
@@ -91,8 +96,8 @@ angular.module('yamm').controller('todoCtrl',
 )
 
 angular.module('yamm').controller('xkcdCtrl',
-    ['$scope', 'api', '$interval',
-        function ($scope, api, $interval) {
+    ['$scope', 'api', '$interval', '$rootScope',
+        function ($scope, api, $interval, $rootScope) {
             $scope.comics = [];
             
             $scope.showXkcd = true;
@@ -120,6 +125,7 @@ angular.module('yamm').controller('xkcdCtrl',
                 'next comic': () => {
                     $scope.showXkcd = true;
                     fetchComic();
+                    $rootScope.$broadcast('hide', 'hi!');
                     $scope.$apply();
                 }
             };
