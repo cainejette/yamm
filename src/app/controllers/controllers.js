@@ -1,33 +1,9 @@
 angular.module('yamm').controller('timeCtrl',
-    ['$scope', '$interval', 'AnnyangService',
-        function ($scope, $interval, AnnyangService) {
+    ['$scope', '$interval',
+        function ($scope, $interval) {
             $scope.hideColon = true;
 
-            var vm = this;
-
-            vm.init = function() {
-                vm.clearResults();
-
-                AnnyangService.addCommand('*allSpeech', function(allSpeech) {
-                    console.debug(allSpeech);
-                    vm.addResult(allSpeech);
-                });
-                
-                AnnyangService.start();
-            };
-            
-            vm.addResult = function(result) {
-                vm.results.push({
-                    content: result,
-                    date: new Date()
-                });
-            };
-            
-            vm.clearResults = function() {
-                vm.results = [];
-            };
-
-            vm.init();
+            annyang.start();
             
             $interval(() => {
                 $scope.currentTime = new Date();
@@ -130,6 +106,25 @@ angular.module('yamm').controller('xkcdCtrl',
                 });
             }
 
+            var commands = {
+                'hide comics': () => {
+                    $scope.showXkcd = false;
+                    console.log('hiding...');
+                    $scope.$apply();
+                },
+                'show comics': () => {
+                    $scope.showXkcd = true;
+                    console.log('showing...');
+                    $scope.$apply();
+                },
+                'next comic': () => {
+                    $scope.showXkcd = true;
+                    fetchComic();
+                    $scope.$apply();
+                }
+            };
+            annyang.addCommands(commands);
+            
             fetchComic();
 
             $interval(fetchComic, 45000);
