@@ -5,19 +5,18 @@ angular.module('yamm').controller('todoCtrl',
         function ($scope, api, $interval) {
             const getTodos = () => {
                 api.getTodos().then(data => {
-                    $scope.todos = data;
+                    this.todos = data;
                 });
             }
 
-            $scope.visible = true;            
+            this.visible = true;
             $scope.$on('hide', (event, arg) => {
-                $scope.visible = false;
+                this.visible = false;
             });
-            
-            $scope.$on('show', (event, arg) => {
-                $scope.visible = true;
-            })
 
+            $scope.$on('show', (event, arg) => {
+                this.visible = true;
+            })
 
             getTodos();
 

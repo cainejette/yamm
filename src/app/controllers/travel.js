@@ -5,17 +5,17 @@ angular.module('yamm').controller('travelCtrl',
         function ($scope, api) {
             const getTravelTimes = () => {
                 api.getTravelTimes().then(data => {
-                    $scope.travelTime = data.rows[0].elements[0].duration.text;
+                    this.travelTime = data.rows[0].elements[0].duration.text;
                 });
             }
-            
-            $scope.visible = true;            
+
+            this.visible = true;
             $scope.$on('hide', (event, arg) => {
-                $scope.visible = false;
+                this.visible = false;
             });
-            
+
             $scope.$on('show', (event, arg) => {
-                $scope.visible = true;
+                this.visible = true;
             })
 
             getTravelTimes();

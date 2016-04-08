@@ -4,21 +4,21 @@ angular.module('yamm').controller('voiceCtrl',
     ['$scope', '$rootScope', '$timeout',
         function($scope, $rootScope, $timeout) {
             
-            $scope.command = [];
+            this.command = [];
             
             const commands = {
                 'go away': () => {
-                    $scope.command = ['go away'];
+                    this.command = ['go away'];
                     $rootScope.$broadcast('hide');
                     $timeout(() => {
-                        $scope.command = [];
+                        this.command = [];
                     }, 2000);
                 },
                 'come back': () => {
-                    $scope.command = ['come back'];
+                    this.command = ['come back'];
                     $rootScope.$broadcast('show');
                     $timeout(() => {
-                        $scope.command = [];
+                        this.command = [];
                     }, 2000);
                 }
             };

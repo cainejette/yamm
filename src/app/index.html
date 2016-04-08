@@ -32,22 +32,22 @@
   <div class="yamm container-fluid">
     <div class="row">
       <div class="col-sm-6">
-        <div ng-controller="voiceCtrl">
-          <div>{{ command[0] }}</div>  
+        <div ng-controller="voiceCtrl as voiceCtrl">
+          <div>{{ voiceCtrl.command[0] }}</div>  
         </div>
         
-        <div ng-controller="timeCtrl">
-          <div ng-if="visible">
-            <span class="time">{{currentTime | date: 'HH'}}</span>
-            <span class="time" ng-class="{'invisible': hideColon}">:</span>
-            <span class="time">{{currentTime | date: 'mm'}}</span>
+        <div ng-controller="timeCtrl as time">
+          <div ng-if="time.visible">
+            <span class="time">{{ time.currentTime | date: 'HH'}}</span>
+            <span class="time" ng-class="{'invisible': time.hideColon}">:</span>
+            <span class="time">{{ time.currentTime | date: 'mm'}}</span>
           </div>
         </div>
       </div>
 
       <div class="col-sm-6 right">
-        <div class="todos text-right" ng-controller="todoCtrl">
-          <div ng-repeat="todo in todos" ng-if="visible">
+        <div class="todos text-right" ng-controller="todoCtrl as todoCtrl">
+          <div ng-repeat="todo in todoCtrl.todos" ng-if="todoCtrl.visible">
             <div class="info">{{ todo }}</div>
           </div>
         </div>
@@ -56,27 +56,27 @@
 
     <div class="row">
       <div class="col-sm-6">
-        <div ng-controller="weatherCtrl">
-          <div class="weather info" ng-if="visible">{{ currentTemperature }}&deg F</div>
+        <div ng-controller="weatherCtrl as weather">
+          <div class="weather info" ng-if="weather.visible">{{ weather.currentTemperature }}&deg F</div>
         </div>
 
-        <div ng-controller="travelCtrl">
-          <div class="info" ng-if="visible">{{ travelTime }} to CLC</div>
+        <div ng-controller="travelCtrl as travelCtrl">
+          <div class="info" ng-if="travelCtrl.visible">{{ travelCtrl.travelTime }} to CLC</div>
         </div>
       </div>
       <div class="col-sm-6">
-        <div class="jobs text-right" ng-controller="jobCtrl">
-          <div ng-if="visible">
-            <div>Job posts: {{ jobs.length }}</div>
-            <div>Most recent: {{ jobs[0].location }}</div>
+        <div class="jobs text-right" ng-controller="jobCtrl as jobCtrl">
+          <div ng-if="jobCtrl.visible">
+            <div>Job posts: {{ jobCtrl.jobs.length }}</div>
+            <div>Most recent: {{ jobCtrl.jobs[0].location }}</div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="row">
-      <div class="text-center xkcd" ng-controller="xkcdCtrl">
-        <div ng-repeat="comic in comics" ng-if="visible">
+      <div class="text-center xkcd" ng-controller="xkcdCtrl as xkcdCtrl">
+        <div ng-repeat="comic in xkcdCtrl.comics" ng-if="xkcdCtrl.visible">
           <div ng-show="$first">
             <div>{{ comic.title }}</div>
             <div class="comic">

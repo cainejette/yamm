@@ -5,14 +5,14 @@ angular.module('yamm').controller('weatherCtrl',
         function ($scope, api, $interval) {
             const getWeather = () => {
                 api.getWeather().then(data => {
-                    $scope.currentTemperature = data.temp;
-                    $scope.icon = "wi-owm-" + data.icon;
+                    this.currentTemperature = data.temp;
+                    this.icon = "wi-owm-" + data.icon;
                 });
             };
 
             const getForecast = () => {
                 api.getForecast().then(data => {
-                    $scope.forecasts = data.list.map(x => {
+                    this.forecasts = data.list.map(x => {
                         return {
                             'time': new Date(x.dt * 1000),
                             'temp': Math.round(x.main.temp)
@@ -20,14 +20,14 @@ angular.module('yamm').controller('weatherCtrl',
                     });
                 });
             }
-            
-            $scope.visible = true;            
+
+            this.visible = true;
             $scope.$on('hide', (event, arg) => {
-                $scope.visible = false;
+                this.visible = false;
             });
-            
+
             $scope.$on('show', (event, arg) => {
-                $scope.visible = true;
+                this.visible = true;
             })
 
             getWeather();

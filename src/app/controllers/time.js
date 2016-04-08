@@ -3,20 +3,20 @@
 angular.module('yamm').controller('timeCtrl',
     ['$scope', '$interval',
         function ($scope, $interval) {
-            $scope.hideColon = true;
-            $scope.visible = true;
+            this.hideColon = true;
+            this.visible = true;
             
             $scope.$on('hide', (event, arg) => {
-                $scope.visible = false;
+                this.visible = false;
             });
             
             $scope.$on('show', (event, arg) => {
-                $scope.visible = true;
+                this.visible = true;
             })
 
             $interval(() => {
-                $scope.currentTime = new Date();
-                $scope.hideColon = !$scope.hideColon;
+                this.currentTime = new Date();
+                this.hideColon = !this.hideColon;
             }, 1000);
         }]
 );

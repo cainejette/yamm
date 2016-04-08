@@ -3,21 +3,21 @@
 angular.module('yamm').controller('jobCtrl',
     ['$scope', 'api', '$interval',
         function ($scope, api, $interval) {
-            $scope.jobs = [];
+            this.jobs = [];
 
             const getJobs = () => {
                 api.getJobs().then(data => {
-                    $scope.jobs = data;
+                    this.jobs = data;
                 });
             }
 
-            $scope.visible = true;            
+            this.visible = true;
             $scope.$on('hide', (event, arg) => {
-                $scope.visible = false;
+                this.visible = false;
             });
-            
+
             $scope.$on('show', (event, arg) => {
-                $scope.visible = true;
+                this.visible = true;
             })
 
             getJobs();

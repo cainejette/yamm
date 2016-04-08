@@ -5,7 +5,7 @@ angular.module('yamm').controller('redditCtrl',
         function ($scope, api, $interval) {
             const getTopPosts = () => {
                 api.getTopPosts().then(data => {
-                    $scope.topPosts = data.data.children;
+                    this.topPosts = data.data.children;
                     changeSelectedPost();
                 });
             }
