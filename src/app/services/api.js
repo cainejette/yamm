@@ -16,7 +16,7 @@ angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
     return getData('/api/weather').then(data => {
       return {
         'temp': Math.round(data.main.temp),
-        'icon': data.weather[0].id  
+        'icon': data.weather[0].id
       }
     });
   }

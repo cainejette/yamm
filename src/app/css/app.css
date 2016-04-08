@@ -35,10 +35,7 @@ h1 {
 
 i {
   font-family: 'weathericons';
-  height: 50px;
-  width: 50px;
-  display: block;
-  color: white;
+  font-size: 3em;
 }
 
 .right {

@@ -5,7 +5,8 @@
   <meta charset="utf-8" />
   <title>yamm</title>
   <link rel="stylesheet" href="css/app.css" />
-  <link rel="stylesheet" type="text/css" href="css/weather-icons.css" />
+  <link rel="stylesheet" href="css/weather-icons.css" />
+
   <script src="https://code.angularjs.org/1.2.16/angular.js"></script>
   <script src="app.js"></script>
   <script src="controllers/job.js"></script>
@@ -33,9 +34,9 @@
     <div class="row">
       <div class="col-sm-6">
         <div ng-controller="voiceCtrl as voiceCtrl">
-          <div>{{ voiceCtrl.command[0] }}</div>  
+          <div>{{ voiceCtrl.command[0] }}</div>
         </div>
-        
+
         <div ng-controller="timeCtrl as time">
           <div ng-if="time.visible">
             <span class="time">{{ time.currentTime | date: 'HH'}}</span>
@@ -57,7 +58,8 @@
     <div class="row">
       <div class="col-sm-6">
         <div ng-controller="weatherCtrl as weather">
-          <div class="weather info" ng-if="weather.visible">{{ weather.currentTemperature }}&deg F</div>
+          <i ng-class="[wi, weather.icon]"></i>
+          <span class="weather info" ng-if="weather.visible">{{ weather.currentTemperature }}&deg F</span>
         </div>
 
         <div ng-controller="travelCtrl as travelCtrl">
