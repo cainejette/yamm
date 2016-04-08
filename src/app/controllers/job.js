@@ -5,7 +5,7 @@ angular.module('yamm').controller('jobCtrl',
         function ($scope, api, $interval) {
             $scope.jobs = [];
 
-            var getJobs = () => {
+            const getJobs = () => {
                 api.getJobs().then(data => {
                     $scope.jobs = data;
                 });

@@ -3,7 +3,7 @@
 angular.module('yamm').controller('todoCtrl',
     ['$scope', 'api', '$interval',
         function ($scope, api, $interval) {
-            var getTodos = () => {
+            const getTodos = () => {
                 api.getTodos().then(data => {
                     $scope.todos = data;
                 });

@@ -1,8 +1,8 @@
 var gulp = require('gulp');
 var babel = require('gulp-babel');
-var clean = require('gulp-clean');
-var nodemon = require('gulp-nodemon');
-var exec = require('child_process').exec
+const clean = require('gulp-clean');
+const nodemon = require('gulp-nodemon');
+const exec = require('child_process').exec
 
 gulp.task('default', ['clean', 'copy', 'babelify', 'dev'], () => {
   

@@ -1,15 +1,15 @@
-var express = require('express');
-var proxy = require('http-proxy');
-var app = express();
-var curl = require('curlrequest');
-var uuid = require('node-uuid');
-var moment = require('moment');
-var cheerio = require('cheerio');
+const express = require('express');
+const proxy = require('http-proxy');
+const app = express();
+const curl = require('curlrequest');
+const uuid = require('node-uuid');
+const moment = require('moment');
+const cheerio = require('cheerio');
 
-var secrets = require('../secrets.json');
-var config = require('../config.json');
+const secrets = require('../secrets.json');
+const config = require('../config.json');
 
-var port = 3000;
+const port = 3000;
 
 app.set('port', port);
 app.use(express.static(__dirname + '/app'));
@@ -18,8 +18,8 @@ proxy.prototype.onError = (err) => {
     console.log(err);
 }
 
-var router = express.Router();
-var api = proxy.createProxyServer({ changeOrigin: false });
+const router = express.Router();
+const api = proxy.createProxyServer({ changeOrigin: false });
 
 router.use((req, res, next) => {
     console.log(moment().format('h:mm:ss a'), req.method, req.url);
@@ -46,11 +46,11 @@ router.get('/api/forecast', (req, res) => {
     });
 });
 
-var GoogleMapsAPI = require('googlemaps');
-var gmAPI = new GoogleMapsAPI({ key: secrets.mapKey, secure: true });
+const GoogleMapsAPI = require('googlemaps');
+const gmAPI = new GoogleMapsAPI({ key: secrets.mapKey, secure: true });
 
 router.get('/api/travel', (req, res) => {
-    var params = {
+    const params = {
         origins: config.travel.home,
         destinations: config.travel.destinations[0],
         units: config.units
@@ -68,7 +68,7 @@ router.get('/api/reddit', (req, res) => {
 });
 
 router.get('/api/todo', (req, res) => {
-    var options = {
+    const options = {
         url: 'https://todoist.com/API/v6/sync',
         data: {
             token: secrets.todoistKey,
@@ -81,22 +81,22 @@ router.get('/api/todo', (req, res) => {
             res.send(err);
         }
 
-        var todos = JSON.parse(data).Items;
+        const todos = JSON.parse(data).Items;
 
         // filter for todos of form: Completed: "title" and strip down to just title
-        var completeTodos = todos.filter(todo => todo.content.includes("Completed:"));
-        var mappedTodos = completeTodos.map(todo => todo.content.substring(todo.content.indexOf('"') + 1, todo.content.length - 1));
-        var openTodos = todos.filter(todo => !todo.content.includes("Completed:"));
-        var actualRemainingTodos = openTodos.filter(todo => {
+        const completeTodos = todos.filter(todo => todo.content.includes("Completed:"));
+        const mappedTodos = completeTodos.map(todo => todo.content.substring(todo.content.indexOf('"') + 1, todo.content.length - 1));
+        const openTodos = todos.filter(todo => !todo.content.includes("Completed:"));
+        const actualRemainingTodos = openTodos.filter(todo => {
             return mappedTodos.indexOf(todo.content) === -1;
         }).map(todo => todo.content);
 
-        var notActualRemainingTodos = openTodos.filter(todo => mappedTodos.indexOf(todo.content) != -1);
-        var toDelete = notActualRemainingTodos.concat(completeTodos).map(todo => todo.id);
+        const notActualRemainingTodos = openTodos.filter(todo => mappedTodos.indexOf(todo.content) != -1);
+        const toDelete = notActualRemainingTodos.concat(completeTodos).map(todo => todo.id);
 
         // delete from todoist
         if (toDelete.length) {
-            var deleteOptions = {
+            const deleteOptions = {
                 url: 'https://todoist.com/API/v6/sync',
                 data: {
                     token: secrets.todoistKey,
@@ -116,7 +116,7 @@ router.get('/api/todo', (req, res) => {
 
 router.get('/api/xkcd', (req, res) => {
     // 1662 xkcd comics currently. find smarter way to do this.
-    var comic = Math.floor(Math.random() * 1662)
+    const comic = Math.floor(Math.random() * 1662)
     curl.request('http://xkcd.com/{0}/info.0.json'.replace('{0}', comic), (err, data) => {
         err ? res.send(err) : res.send(data);
     })
@@ -125,31 +125,31 @@ router.get('/api/xkcd', (req, res) => {
 router.get('/api/jobs', (req, res) => {
     curl.request('http://www.wiaa.com/Jobs.aspx', (err, data) => {
         if (err) res.send(err);
-        
-        var $ = cheerio.load(data);
-        
+
+        const $ = cheerio.load(data);
+
         var dates = [];
         var mixed = [];
 
         // grab table cells we care about  
-        $('td[valign=top]').each(function(i, elem) {
-        // dates are formatted differently from position and location tds
-        elem.children.filter(child => child.name == 'a' && child.children[0].data).forEach(child => {
-            dates.push(child.children[0].data); 
-        });
-        
-        // positions and locations are in the same array here, so we separate later
-        elem.children.filter(child => child.data && child.data.trim().length > 0).forEach(child => {
-            mixed.push(child.data.trim());
-        })
+        $('td[valign=top]').each(function (i, elem) {
+            // dates are formatted differently from position and location tds
+            elem.children.filter(child => child.name == 'a' && child.children[0].data).forEach(child => {
+                dates.push(child.children[0].data);
+            });
+
+            // positions and locations are in the same array here, so we separate later
+            elem.children.filter(child => child.data && child.data.trim().length > 0).forEach(child => {
+                mixed.push(child.data.trim());
+            })
         });
 
         var positions = [];
-        var locations = [];      
+        var locations = [];
         mixed.forEach((item, index) => {
-        index % 2 == 0 ? positions.push(item) : locations.push(item);
+            index % 2 == 0 ? positions.push(item) : locations.push(item);
         })
-        
+
         // populate our final array of objects
         var jobs = [];
         dates.forEach((date, index) => {
@@ -159,8 +159,8 @@ router.get('/api/jobs', (req, res) => {
                 'location': locations[index]
             });
         });
-        
-        var volleyballJobs = jobs.filter(job => job.position.toLowerCase().includes('volleyball'));
+
+        const volleyballJobs = jobs.filter(job => job.position.toLowerCase().includes('volleyball'));
         res.send(volleyballJobs);
     })
 })

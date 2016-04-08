@@ -3,7 +3,7 @@
 angular.module('yamm').controller('travelCtrl',
     ['$scope', 'api',
         function ($scope, api) {
-            var getTravelTimes = () => {
+            const getTravelTimes = () => {
                 api.getTravelTimes().then(data => {
                     $scope.travelTime = data.rows[0].elements[0].duration.text;
                 });

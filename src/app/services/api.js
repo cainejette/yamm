@@ -1,6 +1,6 @@
 angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
-  var getData = (url) => {
-    var deferred = $q.defer();
+  const getData = (url) => {
+    const deferred = $q.defer();
     $http.get(url)
       .success(data => deferred.resolve(data))
       .error(err => {
@@ -12,7 +12,7 @@ angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
     return deferred.promise;
   }
 
-  var getWeather = () => {
+  const getWeather = () => {
     return getData('/api/weather').then(data => {
       return {
         'temp': Math.round(data.main.temp),
@@ -21,27 +21,27 @@ angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
     });
   }
 
-  var getForecast = () => {
+  const getForecast = () => {
     return getData('/api/forecast');
   }
 
-  var getTravelTimes = () => {
+  const getTravelTimes = () => {
     return getData('/api/travel');
   }
 
-  var getTopPosts = () => {
+  const getTopPosts = () => {
     return getData('/api/reddit');
   }
 
-  var getTodos = () => {
+  const getTodos = () => {
     return getData('/api/todo');
   }
   
-  var getXkcd = () => {
+  const getXkcd = () => {
     return getData('/api/xkcd');
   }
   
-  var getJobs = () => {
+  const getJobs = () => {
     return getData('/api/jobs/');
   }
 

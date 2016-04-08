@@ -3,14 +3,14 @@
 angular.module('yamm').controller('weatherCtrl',
     ['$scope', 'api', '$interval',
         function ($scope, api, $interval) {
-            var getWeather = () => {
+            const getWeather = () => {
                 api.getWeather().then(data => {
                     $scope.currentTemperature = data.temp;
                     $scope.icon = "wi-owm-" + data.icon;
                 });
             };
 
-            var getForecast = () => {
+            const getForecast = () => {
                 api.getForecast().then(data => {
                     $scope.forecasts = data.list.map(x => {
                         return {
