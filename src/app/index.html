@@ -44,19 +44,7 @@
             <span class="time">{{ time.currentTime | date: 'mm'}}</span>
           </div>
         </div>
-      </div>
 
-      <div class="col-sm-6 right">
-        <div class="todos text-right" ng-controller="todoCtrl as todoCtrl">
-          <div ng-repeat="todo in todoCtrl.todos" ng-if="todoCtrl.visible">
-            <div class="info">{{ todo }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-sm-6">
         <div ng-controller="weatherCtrl as weather">
           <i ng-class="[wi, weather.icon]"></i>
           <span class="weather info" ng-if="weather.visible">{{ weather.currentTemperature }}&deg F</span>
@@ -65,14 +53,23 @@
         <div ng-controller="travelCtrl as travelCtrl">
           <div class="info" ng-if="travelCtrl.visible">{{ travelCtrl.travelTime }} to CLC</div>
         </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="jobs text-right" ng-controller="jobCtrl as jobCtrl">
+
+        <div class="jobs" ng-controller="jobCtrl as jobCtrl">
           <div ng-if="jobCtrl.visible">
-            <div>Job posts: {{ jobCtrl.jobs.length }}</div>
-            <div>Most recent: {{ jobCtrl.jobs[0].location }}</div>
+            <div class="job">Job posts: {{ jobCtrl.jobs.length }}</div>
+            <div class="job">Most recent: {{ jobCtrl.jobs[0].location }}</div>
           </div>
         </div>
+
+      </div>
+
+      <div class="col-sm-6 right">
+        <div class="todos text-right" ng-controller="todoCtrl as todoCtrl">
+          <div ng-repeat="todo in todoCtrl.todos" ng-if="todoCtrl.visible">
+            <div class="info">{{ todo }}</div>
+          </div>
+        </div>
+
       </div>
     </div>
 
