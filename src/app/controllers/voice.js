@@ -4,31 +4,31 @@ angular.module('yamm').controller('voiceCtrl',
     ['$scope', '$rootScope', '$timeout',
         function($scope, $rootScope, $timeout) {
             
-            // this.command = [];
+            // this.commands = [];
             
             // const fadeout = () => {
             //     $timeout(() => {
-            //         this.command.pop();
-            //     }, 2000);
+            //         this.commands.pop();
+            //     }, 2500);
             // }
             // annyang.addCommands({
             //     'go away': () => {
-            //         this.command[0] = 'go away';
+            //         this.commands.push('go away');
             //         $rootScope.$broadcast('hide');
             //         fadeout();
             //     },
             //     'come back': () => {
-            //         this.command[0] = 'come back';
+            //         this.commands.push('come back');
             //         $rootScope.$broadcast('show');
             //         fadeout();
             //     },
             //     'start timer': () => {
-            //         this.command[0] = 'start timer';
+            //         this.commands.push('start timer');
             //         $rootScope.$broadcast('start timer');
             //         fadeout();
             //     },
             //     'stop': () => {
-            //         this.command[0] = 'stop';
+            //         this.commands.push('stop');
             //         $rootScope.$broadcast('stop');
             //         fadeout();
             //     }
