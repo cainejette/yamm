@@ -38,19 +38,21 @@
         </div>
 
         <div ng-controller="timeCtrl as time">
-          <div ng-if="time.visible">
-            <span class="time">{{ time.currentTime | date: 'HH'}}</span>
-            <span class="time" ng-class="{'invisible': time.hideColon}">:</span>
-            <span class="time">{{ time.currentTime | date: 'mm'}}</span>
+          <div ng-controller="weatherCtrl as weather">
+            <div ng-if="time.visible">
+              <span class="date">{{ time.currentTime | date: 'MMM d'}}</span>
+              <i ng-class="[wi, weather.icon]" ng-if="weather.visible"></i>
+              <span class="weather info" ng-if="weather.visible">{{ weather.currentTemperature }}&deg</span>
+              <br/>
+              <span class="time">{{ time.currentTime | date: 'HH'}}</span>
+              <span class="time" ng-class="{'invisible': time.hideColon}">:</span>
+              <span class="time">{{ time.currentTime | date: 'mm'}}</span>
 
-            <div class="time" ng-show="time.timeElapsed > 0">{{ time.timeElapsed.toFixed(1) }}</div>
+              <div class="time" ng-show="time.timeElapsed > 0">{{ time.timeElapsed.toFixed(1) }}</div>
+            </div>
           </div>
         </div>
 
-        <div ng-controller="weatherCtrl as weather">
-          <i ng-class="[wi, weather.icon]" ng-if="weather.visible"></i>
-          <span class="weather info" ng-if="weather.visible">{{ weather.currentTemperature }}&deg F</span>
-        </div>
 
         <div ng-controller="travelCtrl as travelCtrl">
           <div class="info" ng-if="travelCtrl.visible">{{ travelCtrl.travelTime }} to CLC</div>

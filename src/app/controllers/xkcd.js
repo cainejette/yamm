@@ -1,17 +1,23 @@
 'use strict';
 
 angular.module('yamm').controller('xkcdCtrl',
-    ['$scope', 'api', '$interval', '$rootScope',
-        function ($scope, api, $interval, $rootScope) {
+    ['$scope', 'api', '$interval', '$rootScope', '$timeout',
+        function ($scope, api, $interval, $rootScope, $timeout) {
             this.comics = [];
 
             const getComic = () => {
                 api.getXkcd().then(data => {
-                    this.comics[0] = {
-                        'title': data.title,
-                        'comic': data.img,
-                        'alt': data.alt
-                    };
+                    if (this.comics.length) {
+                        this.comics.pop();
+                    }
+
+                    $timeout(() => {
+                        this.comics.push({
+                            'title': data.title,
+                            'comic': data.img,
+                            'alt': data.alt
+                        });
+                    }, 1000);
                 });
             }
 
