@@ -8,7 +8,7 @@
 body {
   padding: 10px;
   background-color: black !important;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
 }
 
 h1 {
