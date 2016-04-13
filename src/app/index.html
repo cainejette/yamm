@@ -53,14 +53,13 @@
           </div>
         </div>
 
-
         <div ng-controller="travelCtrl as travelCtrl">
-          <div class="info" ng-if="travelCtrl.visible">{{ travelCtrl.travelTime }} to CLC</div>
+          <div class="info" ng-if="travelCtrl.visible">{{ travelCtrl.travelTime }} commute</div>
         </div>
 
         <div class="jobs" ng-controller="jobCtrl as jobCtrl">
           <div ng-if="jobCtrl.visible">
-            <div class="job">Job posts: {{ jobCtrl.jobs.length }}</div>
+            <div class="job">{{ jobCtrl.jobs.length }} job listings</div>
             <div class="job">Most recent: {{ jobCtrl.jobs[0].location }}</div>
           </div>
         </div>

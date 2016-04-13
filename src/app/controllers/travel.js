@@ -6,6 +6,11 @@ angular.module('yamm').controller('travelCtrl',
             const getTravelTimes = () => {
                 api.getTravelTimes().then(data => {
                     this.travelTime = data.rows[0].elements[0].duration.text;
+
+                    // slice off the last s
+                    if (this.travelTime[this.travelTime.length - 1] == 's') {
+                        this.travelTime = this.travelTime.slice(0, this.travelTime.length - 1)
+                    }
                 });
             }
 
