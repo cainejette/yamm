@@ -115,11 +115,18 @@ router.get('/api/todo', (req, res) => {
 });
 
 router.get('/api/xkcd', (req, res) => {
-    // 1662 xkcd comics currently. find smarter way to do this.
-    const comic = Math.floor(Math.random() * 1662)
-    curl.request('http://xkcd.com/{0}/info.0.json'.replace('{0}', comic), (err, data) => {
-        err ? res.send(err) : res.send(data);
-    })
+
+    curl.request('http://xkcd.com/info.0.json', (err, data) => {
+        if (err) {
+            res.send(err);
+        }
+
+        var lastComicNumber = JSON.parse(data).num;
+        var randomComicNumber = Math.floor(Math.random() * lastComicNumber)
+        curl.request('http://xkcd.com/{0}/info.0.json'.replace('{0}', randomComicNumber), (err2, data2) => {
+            err ? res.send(err2) : res.send(data2);
+        });
+    });
 });
 
 router.get('/api/jobs', (req, res) => {
