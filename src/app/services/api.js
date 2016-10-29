@@ -42,10 +42,11 @@ angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
   }
   
   const getJobs = () => {
-    return getData('/api/jobs/');
+    return getData('/api/jobs');
   }
 
   return {
+    getData,
     getWeather,
     getForecast,
     getTravelTimes,
