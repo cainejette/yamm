@@ -6,7 +6,6 @@ const uuid = require('node-uuid');
 const moment = require('moment');
 const cheerio = require('cheerio');
 
-const secrets = require('../secrets.json');
 const config = require('../config.json');
 
 const port = 3000;
@@ -27,38 +26,54 @@ router.use((req, res, next) => {
 });
 
 router.get('/api/weather', (req, res) => {
-    api.web(req, res, {
-        target:
-        'http://api.openweathermap.org/data/2.5/weather?APPID={0}&units={1}&q={2}'
-            .replace('{0}', secrets.weatherKey)
-            .replace('{1}', config.units)
-            .replace('{2}', config.weather.city)
-    });
+    if (!process.env.YAMM_WEATHER_KEY) {
+        res.send('no weather key found in the environment!');
+    }
+    else {
+        api.web(req, res, {
+            target:
+            'http://api.openweathermap.org/data/2.5/weather?APPID={0}&units={1}&q={2}'
+                .replace('{0}', process.env.YAMM_WEATHER_KEY)
+                .replace('{1}', config.units)
+                .replace('{2}', config.weather.city)
+        });
+    }
 });
 
 router.get('/api/forecast', (req, res) => {
-    api.web(req, res, {
-        target:
-        'http://api.openweathermap.org/data/2.5/forecast?APPID={0}&units={1}&q={2}'
-            .replace('{0}', secrets.weatherKey)
-            .replace('{1}', config.units)
-            .replace('{2}', config.weather.city)
-    });
+    if (!process.env.YAMM_WEATHER_KEY) {
+        res.send('no weather key found in the environment!');
+    }
+    else {
+        api.web(req, res, {
+            target:
+            'http://api.openweathermap.org/data/2.5/forecast?APPID={0}&units={1}&q={2}'
+                .replace('{0}', process.env.YAMM_WEATHER_KEY)
+                .replace('{1}', config.units)
+                .replace('{2}', config.weather.city)
+        });
+    }
 });
 
 const GoogleMapsAPI = require('googlemaps');
-const gmAPI = new GoogleMapsAPI({ key: secrets.mapKey, secure: true });
+
 
 router.get('/api/travel', (req, res) => {
-    const params = {
-        origins: config.travel.home,
-        destinations: config.travel.destinations[0],
-        units: config.units
+    if (!process.env.YAMM_MAPS_KEY) {
+        res.send('no map key found in the environment');
     }
+    else {
+        const gmAPI = new GoogleMapsAPI({ key: process.env.YAMM_MAPS_KEY, secure: true });
+        const params = {
+            origins: config.travel.home,
+            destinations: config.travel.destinations[0],
+            units: config.units
+        }
 
-    gmAPI.distance(params, (err, results) => {
-        err ? res.send(err) : res.send(results);
-    });
+        gmAPI.distance(params, (err, results) => {
+            err ? res.send(err) : res.send(results);
+        });
+    }
 });
 
 router.get('/api/reddit', (req, res) => {
@@ -68,50 +83,55 @@ router.get('/api/reddit', (req, res) => {
 });
 
 router.get('/api/todo', (req, res) => {
-    const options = {
-        url: 'https://todoist.com/API/v6/sync',
-        data: {
-            token: secrets.todoistKey,
-            seq_no: 0,
-            resource_types: '["items"]'
-        }
+    if (!process.env.YAMM_TODOIST_KEY) {
+        res.send('no todoist key found in environment!');
     }
-    curl.request(options, (err, data) => {
-        if (err) {
-            res.send(err);
-        }
-
-        const todos = JSON.parse(data).Items;
-
-        // filter for todos of form: Completed: "title" and strip down to just title
-        const completeTodos = todos.filter(todo => todo.content.includes("Completed:"));
-        const mappedTodos = completeTodos.map(todo => todo.content.substring(todo.content.indexOf('"') + 1, todo.content.length - 1));
-        const openTodos = todos.filter(todo => !todo.content.includes("Completed:"));
-        const actualRemainingTodos = openTodos.filter(todo => {
-            return mappedTodos.indexOf(todo.content) === -1;
-        }).map(todo => todo.content);
-
-        const notActualRemainingTodos = openTodos.filter(todo => mappedTodos.indexOf(todo.content) != -1);
-        const toDelete = notActualRemainingTodos.concat(completeTodos).map(todo => todo.id);
-
-        // delete from todoist
-        if (toDelete.length) {
-            const deleteOptions = {
-                url: 'https://todoist.com/API/v6/sync',
-                data: {
-                    token: secrets.todoistKey,
-                    commands: '[{"type": "item_delete", "uuid": "{0}", "args": {"ids": [{1}]}}]'
-                        .replace('{0}', uuid.v4())
-                        .replace('{1}', toDelete.toString())
-                }
+    else {
+        const options = {
+            url: 'https://todoist.com/API/v6/sync',
+            data: {
+                token: secrets.todoistKey,
+                seq_no: 0,
+                resource_types: '["items"]'
             }
-            curl.request(deleteOptions, (err2, data2) => {
-                err2 ? console.dir(err2) : console.dir(data2);
-            });
         }
+        curl.request(options, (err, data) => {
+            if (err) {
+                res.send(err);
+            }
 
-        res.send(actualRemainingTodos);
-    })
+            const todos = JSON.parse(data).Items;
+
+            // filter for todos of form: Completed: "title" and strip down to just title
+            const completeTodos = todos.filter(todo => todo.content.includes("Completed:"));
+            const mappedTodos = completeTodos.map(todo => todo.content.substring(todo.content.indexOf('"') + 1, todo.content.length - 1));
+            const openTodos = todos.filter(todo => !todo.content.includes("Completed:"));
+            const actualRemainingTodos = openTodos.filter(todo => {
+                return mappedTodos.indexOf(todo.content) === -1;
+            }).map(todo => todo.content);
+
+            const notActualRemainingTodos = openTodos.filter(todo => mappedTodos.indexOf(todo.content) != -1);
+            const toDelete = notActualRemainingTodos.concat(completeTodos).map(todo => todo.id);
+
+            // delete from todoist
+            if (toDelete.length) {
+                const deleteOptions = {
+                    url: 'https://todoist.com/API/v6/sync',
+                    data: {
+                        token: secrets.todoistKey,
+                        commands: '[{"type": "item_delete", "uuid": "{0}", "args": {"ids": [{1}]}}]'
+                            .replace('{0}', uuid.v4())
+                            .replace('{1}', toDelete.toString())
+                    }
+                }
+                curl.request(deleteOptions, (err2, data2) => {
+                    err2 ? console.dir(err2) : console.dir(data2);
+                });
+            }
+
+            res.send(actualRemainingTodos);
+        })
+    }
 });
 
 router.get('/api/xkcd', (req, res) => {
