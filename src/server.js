@@ -6,7 +6,6 @@ const uuid = require('node-uuid');
 const moment = require('moment');
 const cheerio = require('cheerio');
 
-const secrets = require('../secrets.json');
 const config = require('../config.json');
 
 const port = 3000;
@@ -30,7 +29,7 @@ router.get('/api/weather', (req, res) => {
     api.web(req, res, {
         target:
         'http://api.openweathermap.org/data/2.5/weather?APPID={0}&units={1}&q={2}'
-            .replace('{0}', secrets.weatherKey)
+            .replace('{0}', process.env.YAMM_WEATHER_KEY)
             .replace('{1}', config.units)
             .replace('{2}', config.weather.city)
     });
@@ -40,16 +39,17 @@ router.get('/api/forecast', (req, res) => {
     api.web(req, res, {
         target:
         'http://api.openweathermap.org/data/2.5/forecast?APPID={0}&units={1}&q={2}'
-            .replace('{0}', secrets.weatherKey)
+            .replace('{0}', process.env.YAMM_WEATHER_KEY)
             .replace('{1}', config.units)
             .replace('{2}', config.weather.city)
     });
 });
 
 const GoogleMapsAPI = require('googlemaps');
-const gmAPI = new GoogleMapsAPI({ key: secrets.mapKey, secure: true });
+
 
 router.get('/api/travel', (req, res) => {
+    const gmAPI = new GoogleMapsAPI({ key: process.env.YAMM_MAPS_KEY, secure: true });
     const params = {
         origins: config.travel.home,
         destinations: config.travel.destinations[0],
@@ -71,7 +71,7 @@ router.get('/api/todo', (req, res) => {
     const options = {
         url: 'https://todoist.com/API/v6/sync',
         data: {
-            token: secrets.todoistKey,
+            token: process.env.YAMM_TODOIST_KEY,
             seq_no: 0,
             resource_types: '["items"]'
         }
@@ -99,7 +99,7 @@ router.get('/api/todo', (req, res) => {
             const deleteOptions = {
                 url: 'https://todoist.com/API/v6/sync',
                 data: {
-                    token: secrets.todoistKey,
+                    token: process.env.YAMM_TODOIST_KEY,
                     commands: '[{"type": "item_delete", "uuid": "{0}", "args": {"ids": [{1}]}}]'
                         .replace('{0}', uuid.v4())
                         .replace('{1}', toDelete.toString())
