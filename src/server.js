@@ -90,7 +90,7 @@ router.get('/api/todo', (req, res) => {
         const options = {
             url: 'https://todoist.com/API/v6/sync',
             data: {
-                token: secrets.todoistKey,
+                token: process.env.YAMM_TODOIST_KEY,
                 seq_no: 0,
                 resource_types: '["items"]'
             }
@@ -118,7 +118,7 @@ router.get('/api/todo', (req, res) => {
                 const deleteOptions = {
                     url: 'https://todoist.com/API/v6/sync',
                     data: {
-                        token: secrets.todoistKey,
+                        token: process.env.YAMM_TODOIST_KEY,
                         commands: '[{"type": "item_delete", "uuid": "{0}", "args": {"ids": [{1}]}}]'
                             .replace('{0}', uuid.v4())
                             .replace('{1}', toDelete.toString())
