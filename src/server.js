@@ -57,7 +57,6 @@ router.get('/api/forecast', (req, res) => {
 
 const GoogleMapsAPI = require('googlemaps');
 
-
 router.get('/api/travel', (req, res) => {
     if (!process.env.YAMM_MAPS_KEY) {
         res.send('no map key found in the environment');
