@@ -8,7 +8,7 @@ const cheerio = require('cheerio');
 
 const config = require('../config.json');
 
-const port = 3000;
+const port = 3001;
 
 app.set('port', port);
 app.use(express.static(__dirname + '/app'));
@@ -26,6 +26,7 @@ router.use((req, res, next) => {
 });
 
 router.get('/api/weather', (req, res) => {
+    console.log('loading weather');
     if (!process.env.YAMM_WEATHER_KEY) {
         res.send('no weather key found in the environment!');
     }
@@ -41,6 +42,7 @@ router.get('/api/weather', (req, res) => {
 });
 
 router.get('/api/forecast', (req, res) => {
+    console.log('loading forecast');
     if (!process.env.YAMM_WEATHER_KEY) {
         res.send('no weather key found in the environment!');
     }
@@ -58,6 +60,7 @@ router.get('/api/forecast', (req, res) => {
 const GoogleMapsAPI = require('googlemaps');
 
 router.get('/api/travel', (req, res) => {
+    console.log('loading travel');
     if (!process.env.YAMM_MAPS_KEY) {
         res.send('no map key found in the environment');
     }
@@ -76,12 +79,14 @@ router.get('/api/travel', (req, res) => {
 });
 
 router.get('/api/reddit', (req, res) => {
+    console.log('loading reddit');
     curl.request('https://www.reddit.com/r/{0}/top.json?count=20'.replace('{0}', config.subreddit), (err, data) => {
         err ? res.send(err) : res.send(data);
     })
 });
 
 router.get('/api/todo', (req, res) => {
+    console.log('loading todos');
     if (!process.env.YAMM_TODOIST_KEY) {
         res.send('no todoist key found in environment!');
     }
@@ -134,6 +139,7 @@ router.get('/api/todo', (req, res) => {
 });
 
 router.get('/api/xkcd', (req, res) => {
+    console.log('loading xkcd');
 
     curl.request('http://xkcd.com/info.0.json', (err, data) => {
         if (err) {
@@ -149,6 +155,7 @@ router.get('/api/xkcd', (req, res) => {
 });
 
 router.get('/api/jobs', (req, res) => {
+    console.log('loading jobs');
     curl.request('http://www.wiaa.com/Jobs.aspx', (err, data) => {
         if (err) res.send(err);
 
@@ -187,11 +194,20 @@ router.get('/api/jobs', (req, res) => {
         });
 
         const volleyballJobs = jobs.filter(job => job.position.toLowerCase().includes('volleyball'));
+        volleyballJobs.forEach(job => {
+            if (job.position.toLowerCase().includes('head')) {
+                job.position = 'head coach';
+            } else {
+                job.position = 'assistant coach';
+            }
+        })
         res.send(volleyballJobs);
     })
 })
 
-app.use('/', router);
+app.use('/', router, (req, res) => {
+    res.sendStatus(401);
+});
 
 app.listen(port, () => {
     console.log('Server listening on port ' + port);

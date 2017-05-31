@@ -30,7 +30,6 @@
 </head>
 
 <body>
-
   <div class="yamm container-fluid">
     <div class="row">
       <div class="col-sm-6">
@@ -60,11 +59,12 @@
 
         <div class="jobs" ng-controller="jobCtrl as jobCtrl">
           <div ng-if="jobCtrl.visible">
-            <div class="job">{{ jobCtrl.jobs.length }} job listings</div>
-            <div class="job">Most recent: {{ jobCtrl.jobs[0].location }}</div>
+            <div class="job">{{ jobCtrl.jobs.length }} recent job listings</div>
+            <div class="job" ng-repeat="job in jobCtrl.jobs">
+              {{ job.position }} at {{ job.location }}
+            </div>
           </div>
         </div>
-
       </div>
 
       <div class="col-sm-6 right">
@@ -73,7 +73,6 @@
             <div class="info">{{ todo }}</div>
           </div>
         </div>
-
       </div>
     </div>
 

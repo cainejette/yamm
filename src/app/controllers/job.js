@@ -8,13 +8,25 @@ angular.module('yamm').controller('jobCtrl',
 
             const getJobs = () => {
                 api.getJobs().then(data => {
-                    this.jobs = data;
-
                     // hide if no jobs in 5 days
-                    if (this.jobs && this.jobs.length > 0 && (new Date() - this.jobs[0].date) > 4.32 * 10^8) { // subtracting dates gives milliseconds
-                        this.visible = false;
-                    } else {
-                        this.visible = true;
+                    if (data && data.length > 0) {
+                        var currentDate = new Date();
+
+                        data.forEach(job => {
+                            var jobDate = new Date(job.date);
+                            
+                            if ((currentDate - jobDate) < 6.048e+8) {
+                                this.jobs.push(job);
+                            }
+                        });
+
+                        if (this.jobs.length > 0) {
+                            this.visible = true;
+                        }
+                        else {
+                            this.visible = false;
+                        }
+
                     }
                 });
             }
