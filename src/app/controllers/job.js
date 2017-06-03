@@ -3,10 +3,11 @@
 angular.module('yamm').controller('jobCtrl',
     ['$scope', 'api', '$interval',
         function ($scope, api, $interval) {
-            this.jobs = [];
             this.visible = false;
 
             const getJobs = () => {
+                this.jobs = [];
+
                 api.getJobs().then(data => {
                     // hide if no jobs in 5 days
                     if (data && data.length > 0) {
