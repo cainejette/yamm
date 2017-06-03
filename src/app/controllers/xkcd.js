@@ -17,7 +17,7 @@ angular.module('yamm').controller('xkcdCtrl',
                             'comic': data.img,
                             'alt': data.alt
                         });
-                    }, 1000);
+                    }, 2000);
                 });
             }
 
