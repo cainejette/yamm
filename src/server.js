@@ -69,7 +69,8 @@ router.get('/api/travel', (req, res) => {
         const params = {
             origins: config.travel.home,
             destinations: config.travel.destinations[0],
-            units: config.units
+            units: config.units,
+            mode: 'bicycling'
         }
 
         gmAPI.distance(params, (err, results) => {
