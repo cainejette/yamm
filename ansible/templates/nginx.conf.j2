@@ -9,7 +9,7 @@ http {
 
     location / {
       # code lives at /app/{{ build_number }}
-      proxy_pass http://localhost:{{ port }};
+      proxy_pass http://127.0.0.1:{{ port }};
     }
 
     error_log /var/log/nginx/project_error.log;

@@ -24,14 +24,6 @@
     template: 
       src: templates/nginx.conf.j2
       dest: /etc/nginx/nginx.conf
-    notify:
-    - restart nginx
-
-  - name: restart nginx
-    become: true
-    service:
-      name: nginx
-      state: restarted
 
   - name: copy files into folder
     copy: 
@@ -47,8 +39,21 @@
       src: templates/port.json.j2
       dest: /app/{{ build_number }}/src/port.json
 
-  - name: run server
-    shell: node /app/{{ build_number }}/src/server.js &
+  - name: upload service file
+    become: true
+    template:
+      src: templates/yamm.service.j2
+      dest: /etc/systemd/system/yamm.service
+      mode: 0755
+
+  - name: enable service
+    become: true
+    systemd:
+      name: yamm.service
+      state: restarted
+      daemon_reload: yes
+    notify:
+    - restart nginx
 
   handlers:
     - name: restart nginx
