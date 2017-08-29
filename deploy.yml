@@ -1,0 +1,33 @@
+---
+
+- hosts: pi
+  tasks:
+    - name: determine most recent build number
+      shell: ls /app | sort -nr | head -1
+      register: last_build
+
+    - name: trim last_build
+      set_fact: last_build={{ last_build.stdout }}
+
+    - name: generate build number
+      set_fact: build_number="{{ last_build | int + 1 }}"
+
+    - name: make folder
+      file:
+        path: /app/{{ build_number }}
+        state: directory
+
+    - name: copy files into folder
+      copy: 
+        src: src
+        dest: /app/{{ build_number }}
+    
+    - name: install npm packages
+      npm:
+        path: /app/{{ build_number }}/src/
+
+    - name: run server
+      shell: node /app/{{ build_number }}/src/server.js
+
+    - name: done!
+      shell: echo success!

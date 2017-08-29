@@ -6,7 +6,7 @@ const uuid = require('node-uuid');
 const moment = require('moment');
 const cheerio = require('cheerio');
 
-const config = require('../config.json');
+const config = require('./config.json');
 
 const port = 3001;
 
