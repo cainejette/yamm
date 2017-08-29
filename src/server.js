@@ -7,10 +7,12 @@ const moment = require('moment');
 const cheerio = require('cheerio');
 
 const config = require('./config.json');
+const portConfig = require('./port.json');
 
-const port = 3001;
-
+const port = portConfig.port | 3001;
+console.log('port', port)
 app.set('port', port);
+
 app.use(express.static(__dirname + '/app'));
 
 proxy.prototype.onError = (err) => {

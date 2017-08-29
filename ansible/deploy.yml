@@ -1,0 +1,58 @@
+---
+
+- hosts: pi
+  tasks:
+  - name: determine most recent build number
+    shell: ls /app | sort -nr | head -1
+    register: last_build
+
+  - name: trim last_build
+    set_fact: last_build={{ last_build.stdout }}
+
+  - name: generate build number
+    set_fact: build_number="{{ last_build | int + 1 }}"
+
+  - name: random port
+    set_fact: port={{ 50000 | random(40000, 1) }}
+
+  - name: make folder
+    file:
+      path: /app/{{ build_number }}
+      state: directory
+
+  - name: write nginx.conf
+    template: 
+      src: templates/nginx.conf.j2
+      dest: /etc/nginx/nginx.conf
+    notify:
+    - restart nginx
+
+  - name: restart nginx
+    become: true
+    service:
+      name: nginx
+      state: restarted
+
+  - name: copy files into folder
+    copy: 
+      src: ../src
+      dest: /app/{{ build_number }}
+
+  - name: install npm packages
+    npm:
+      path: /app/{{ build_number }}/src/
+
+  - name: write port
+    template:
+      src: templates/port.json.j2
+      dest: /app/{{ build_number }}/src/port.json
+
+  - name: run server
+    shell: node /app/{{ build_number }}/src/server.js &
+
+  handlers:
+    - name: restart nginx
+      become: true
+      service: 
+        name: nginx
+        state: restarted

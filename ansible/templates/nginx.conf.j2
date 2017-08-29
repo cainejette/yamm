@@ -1,0 +1,18 @@
+events {
+  worker_connections  4096;  ## Default: 1024
+}
+
+http {
+  server {
+    server_name localhost;
+    listen 80;
+
+    location / {
+      # code lives at /app/{{ build_number }}
+      proxy_pass http://localhost:{{ port }};
+    }
+
+    error_log /var/log/nginx/project_error.log;
+    access_log /var/log/nginx/project_access.log;
+  }
+}
