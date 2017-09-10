@@ -1,18 +1,8 @@
 {
   "name": "yamm",
-  "scripts": {
-    "start": "gulp babelify && node dist/server.js"
-  },
-  "devDependencies": {
-    "angular-animate": "^1.5.5",
-    "babel-preset-es2015": "^6.6.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-clean": "^0.3.2",
-    "gulp-nodemon": "^2.0.6"
-  },
   "dependencies": {
     "angular": "^1.5.5",
+    "angular-animate": "^1.5.5",
     "cheerio": "^0.20.0",
     "curlrequest": "^0.5.7",
     "express": "^4.13.4",
