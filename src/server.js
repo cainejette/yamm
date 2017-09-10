@@ -7,10 +7,8 @@ const moment = require('moment');
 const cheerio = require('cheerio');
 
 const config = require('./config.json');
-const portConfig = require('./port.json');
-
-const port = portConfig.port | 3001;
-console.log('port', port)
+console.log('process.env.YAMM_PORT', process.env.YAMM_PORT);
+const port = process.env.YAMM_PORT || 3001;
 app.set('port', port);
 
 app.use(express.static(__dirname + '/app'));
@@ -29,6 +27,7 @@ router.use((req, res, next) => {
 
 router.get('/api/weather', (req, res) => {
     console.log('loading weather');
+
     if (!process.env.YAMM_WEATHER_KEY) {
         res.send('no weather key found in the environment!');
     }
