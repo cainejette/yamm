@@ -34,11 +34,6 @@
     npm:
       path: /app/{{ build_number }}/src/
 
-  - name: write port
-    template:
-      src: templates/port.json.j2
-      dest: /app/{{ build_number }}/src/port.json
-
   - name: upload service file
     become: true
     template:
