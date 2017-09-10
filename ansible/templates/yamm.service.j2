@@ -4,9 +4,11 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/node /app/{{ build_number }}/src/server.js && DISPLAY=:0 /usr/bin/midori -e Fullscreen -a http://localhost
+ExecStart=/usr/bin/node /app/{{ build_number }}/src/server.js && sleep 10 && DISPLAY=:0 chromium-browser --noerrdialogs --disable-session-crashed-bubble --kiosk http://localhost
 StandardOutput=journal
 Environment=YAMM_PORT={{ port }}
+Environment=YAMM_MAPS_KEY={{ lookup('env', 'YAMM_MAPS_KEY') }}
+Environment=YAMM_WEATHER_KEY={{ lookup('env', 'YAMM_WEATHER_KEY') }}
 
 [Install]
 WantedBy=multi-user.target
