@@ -21,7 +21,7 @@ const router = express.Router();
 const api = proxy.createProxyServer({ changeOrigin: false });
 
 router.use((req, res, next) => {
-    console.log(moment().format('h:mm:ss a'), req.method, req.url);
+    console.log(moment().format('YYYY/MM/DD h:mm:ss a'), req.method, req.url);
     next();
 });
 
@@ -32,12 +32,19 @@ router.get('/api/weather', (req, res) => {
         res.send('no weather key found in the environment!');
     }
     else {
-        api.web(req, res, {
-            target:
-            'http://api.openweathermap.org/data/2.5/weather?APPID={0}&units={1}&q={2}'
-                .replace('{0}', process.env.YAMM_WEATHER_KEY)
-                .replace('{1}', config.units)
-                .replace('{2}', config.weather.city)
+        curl.request('http://api.openweathermap.org/data/2.5/weather?APPID={0}&units={1}&q={2}'
+            .replace('{0}', process.env.YAMM_WEATHER_KEY)
+            .replace('{1}', config.units)
+            .replace('{2}', config.weather.city), (err, raw) => {
+                if (err) {
+                    console.error(err);
+                    res.send(err);
+                }
+                else {
+                    var data = JSON.parse(raw);
+                    console.log('current temp is: ' + data.main.temp);
+                    res.send(data);
+                }
         });
     }
 });
@@ -48,12 +55,17 @@ router.get('/api/forecast', (req, res) => {
         res.send('no weather key found in the environment!');
     }
     else {
-        api.web(req, res, {
-            target:
-            'http://api.openweathermap.org/data/2.5/forecast?APPID={0}&units={1}&q={2}'
-                .replace('{0}', process.env.YAMM_WEATHER_KEY)
-                .replace('{1}', config.units)
-                .replace('{2}', config.weather.city)
+        curl.request('http://api.openweathermap.org/data/2.5/forecast?APPID={0}&units={1}&q={2}'
+            .replace('{0}', process.env.YAMM_WEATHER_KEY)
+            .replace('{1}', config.units)
+            .replace('{2}', config.weather.city), (err, data) => {
+                if (err) {
+                    console.error(err);
+                    res.send(err);
+                }
+                else {
+                    res.send(data);
+                }
         });
     }
 });
@@ -75,7 +87,12 @@ router.get('/api/travel', (req, res) => {
         }
 
         gmAPI.distance(params, (err, results) => {
-            err ? res.send(err) : res.send(results);
+            if (err) {
+                console.error(err);
+                res.send(err);
+            } else {
+                res.send(results);
+            }
         });
     }
 });
