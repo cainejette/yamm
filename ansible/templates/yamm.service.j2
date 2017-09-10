@@ -4,11 +4,11 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/node /app/{{ build_number }}/src/server.js && sleep 10 && DISPLAY=:0 chromium-browser --noerrdialogs --disable-session-crashed-bubble --kiosk http://localhost
+ExecStart=/usr/bin/node /app/{{ build_number }}/src/server.js > /app/{{ build_number}}/log.txt && sleep 10s && DISPLAY=:0 chromium-browser --noerrdialogs --disable-session-crashed-bubble --kiosk http://localhost
 StandardOutput=journal
 Environment=YAMM_PORT={{ port }}
 Environment=YAMM_MAPS_KEY={{ lookup('env', 'YAMM_MAPS_KEY') }}
 Environment=YAMM_WEATHER_KEY={{ lookup('env', 'YAMM_WEATHER_KEY') }}
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
