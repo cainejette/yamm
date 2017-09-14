@@ -37,6 +37,7 @@ router.get('/api/weather', (req, res) => {
             .replace('{1}', config.units)
             .replace('{2}', config.weather.city), (err, raw) => {
                 if (err) {
+                    console.error('error parsing weather');
                     console.error(err);
                     res.send(err);
                 }
@@ -60,6 +61,7 @@ router.get('/api/forecast', (req, res) => {
             .replace('{1}', config.units)
             .replace('{2}', config.weather.city), (err, data) => {
                 if (err) {
+                    console.error('error parsing forecast');
                     console.error(err);
                     res.send(err);
                 }
@@ -88,6 +90,7 @@ router.get('/api/travel', (req, res) => {
 
         gmAPI.distance(params, (err, results) => {
             if (err) {
+                console.error('error loading gmaps');
                 console.error(err);
                 res.send(err);
             } else {
@@ -105,56 +108,56 @@ router.get('/api/reddit', (req, res) => {
 });
 
 router.get('/api/todo', (req, res) => {
-    console.log('loading todos');
-    if (!process.env.YAMM_TODOIST_KEY) {
-        res.send('no todoist key found in environment!');
-    }
-    else {
-        const options = {
-            url: 'https://todoist.com/API/v6/sync',
-            data: {
-                token: process.env.YAMM_TODOIST_KEY,
-                seq_no: 0,
-                resource_types: '["items"]'
-            }
-        }
-        curl.request(options, (err, data) => {
-            if (err) {
-                res.send(err);
-            }
+    // console.log('loading todos');
+    // if (!process.env.YAMM_TODOIST_KEY) {
+    //     res.send('no todoist key found in environment!');
+    // }
+    // else {
+    //     const options = {
+    //         url: 'https://todoist.com/API/v6/sync',
+    //         data: {
+    //             token: process.env.YAMM_TODOIST_KEY,
+    //             seq_no: 0,
+    //             resource_types: '["items"]'
+    //         }
+    //     }
+    //     curl.request(options, (err, data) => {
+    //         if (err) {
+    //             res.send(err);
+    //         }
 
-            const todos = JSON.parse(data).Items;
+    //         const todos = JSON.parse(data).Items;
 
-            // filter for todos of form: Completed: "title" and strip down to just title
-            const completeTodos = todos.filter(todo => todo.content.includes("Completed:"));
-            const mappedTodos = completeTodos.map(todo => todo.content.substring(todo.content.indexOf('"') + 1, todo.content.length - 1));
-            const openTodos = todos.filter(todo => !todo.content.includes("Completed:"));
-            const actualRemainingTodos = openTodos.filter(todo => {
-                return mappedTodos.indexOf(todo.content) === -1;
-            }).map(todo => todo.content);
+    //         // filter for todos of form: Completed: "title" and strip down to just title
+    //         const completeTodos = todos.filter(todo => todo.content.includes("Completed:"));
+    //         const mappedTodos = completeTodos.map(todo => todo.content.substring(todo.content.indexOf('"') + 1, todo.content.length - 1));
+    //         const openTodos = todos.filter(todo => !todo.content.includes("Completed:"));
+    //         const actualRemainingTodos = openTodos.filter(todo => {
+    //             return mappedTodos.indexOf(todo.content) === -1;
+    //         }).map(todo => todo.content);
 
-            const notActualRemainingTodos = openTodos.filter(todo => mappedTodos.indexOf(todo.content) != -1);
-            const toDelete = notActualRemainingTodos.concat(completeTodos).map(todo => todo.id);
+    //         const notActualRemainingTodos = openTodos.filter(todo => mappedTodos.indexOf(todo.content) != -1);
+    //         const toDelete = notActualRemainingTodos.concat(completeTodos).map(todo => todo.id);
 
-            // delete from todoist
-            if (toDelete.length) {
-                const deleteOptions = {
-                    url: 'https://todoist.com/API/v6/sync',
-                    data: {
-                        token: process.env.YAMM_TODOIST_KEY,
-                        commands: '[{"type": "item_delete", "uuid": "{0}", "args": {"ids": [{1}]}}]'
-                            .replace('{0}', uuid.v4())
-                            .replace('{1}', toDelete.toString())
-                    }
-                }
-                curl.request(deleteOptions, (err2, data2) => {
-                    err2 ? console.dir(err2) : console.dir(data2);
-                });
-            }
+    //         // delete from todoist
+    //         if (toDelete.length) {
+    //             const deleteOptions = {
+    //                 url: 'https://todoist.com/API/v6/sync',
+    //                 data: {
+    //                     token: process.env.YAMM_TODOIST_KEY,
+    //                     commands: '[{"type": "item_delete", "uuid": "{0}", "args": {"ids": [{1}]}}]'
+    //                         .replace('{0}', uuid.v4())
+    //                         .replace('{1}', toDelete.toString())
+    //                 }
+    //             }
+    //             curl.request(deleteOptions, (err2, data2) => {
+    //                 err2 ? console.dir(err2) : console.dir(data2);
+    //             });
+    //         }
 
-            res.send(actualRemainingTodos);
-        })
-    }
+    //         res.send(actualRemainingTodos);
+    //     })
+    // }
 });
 
 router.get('/api/xkcd', (req, res) => {
@@ -162,65 +165,87 @@ router.get('/api/xkcd', (req, res) => {
 
     curl.request('http://xkcd.com/info.0.json', (err, data) => {
         if (err) {
+            console.error('error loading xkcd')
+            console.error(err);
             res.send(err);
+        } else {
+            console.log('getting the last xkcd...')
+            var lastComicNumber = '';
+            try {
+                lastComicNumber = JSON.parse(data).num;
+            } catch (error) {
+                console.log('error parsing last xkcd... here was input:');
+                console.dir(data);
+                console.dir(error);
+            }
+            
+            console.log('last xkcd published: ' + lastComicNumber);
+            var randomComicNumber = Math.floor(Math.random() * lastComicNumber)
+            console.log('random xkcd to show: ' + randomComicNumber);
+            curl.request('http://xkcd.com/{0}/info.0.json'.replace('{0}', randomComicNumber), (err2, data2) => {
+                if (err2) {
+                    console.error(err2);
+                    res.send(err2);
+                } else {
+                    res.send(data2);
+                }
+            });
         }
-
-        var lastComicNumber = JSON.parse(data).num;
-        var randomComicNumber = Math.floor(Math.random() * lastComicNumber)
-        curl.request('http://xkcd.com/{0}/info.0.json'.replace('{0}', randomComicNumber), (err2, data2) => {
-            err ? res.send(err2) : res.send(data2);
-        });
     });
 });
 
 router.get('/api/jobs', (req, res) => {
     console.log('loading jobs');
     curl.request('http://www.wiaa.com/Jobs.aspx', (err, data) => {
-        if (err) res.send(err);
+        if (err) {
+            console.error(err);
+            res.send(err);
+        } 
+        else {
+            const $ = cheerio.load(data);
 
-        const $ = cheerio.load(data);
+            var dates = [];
+            var mixed = [];
 
-        var dates = [];
-        var mixed = [];
+            // grab table cells we care about  
+            $('td[valign=top]').each(function (i, elem) {
+                // dates are formatted differently from position and location tds
+                elem.children.filter(child => child.name == 'a' && child.children[0].data).forEach(child => {
+                    dates.push(child.children[0].data);
+                });
 
-        // grab table cells we care about  
-        $('td[valign=top]').each(function (i, elem) {
-            // dates are formatted differently from position and location tds
-            elem.children.filter(child => child.name == 'a' && child.children[0].data).forEach(child => {
-                dates.push(child.children[0].data);
+                // positions and locations are in the same array here, so we separate later
+                elem.children.filter(child => child.data && child.data.trim().length > 0).forEach(child => {
+                    mixed.push(child.data.trim());
+                })
             });
 
-            // positions and locations are in the same array here, so we separate later
-            elem.children.filter(child => child.data && child.data.trim().length > 0).forEach(child => {
-                mixed.push(child.data.trim());
+            var positions = [];
+            var locations = [];
+            mixed.forEach((item, index) => {
+                index % 2 == 0 ? positions.push(item) : locations.push(item);
             })
-        });
 
-        var positions = [];
-        var locations = [];
-        mixed.forEach((item, index) => {
-            index % 2 == 0 ? positions.push(item) : locations.push(item);
-        })
-
-        // populate our final array of objects
-        var jobs = [];
-        dates.forEach((date, index) => {
-            jobs.push({
-                'date': date,
-                'position': positions[index],
-                'location': locations[index]
+            // populate our final array of objects
+            var jobs = [];
+            dates.forEach((date, index) => {
+                jobs.push({
+                    'date': date,
+                    'position': positions[index],
+                    'location': locations[index]
+                });
             });
-        });
 
-        const volleyballJobs = jobs.filter(job => job.position.toLowerCase().includes('volleyball'));
-        volleyballJobs.forEach(job => {
-            if (job.position.toLowerCase().includes('head')) {
-                job.position = 'head coach';
-            } else {
-                job.position = 'assistant coach';
-            }
-        })
-        res.send(volleyballJobs);
+            const volleyballJobs = jobs.filter(job => job.position.toLowerCase().includes('volleyball'));
+            volleyballJobs.forEach(job => {
+                if (job.position.toLowerCase().includes('head')) {
+                    job.position = 'head coach';
+                } else {
+                    job.position = 'assistant coach';
+                }
+            })
+            res.send(volleyballJobs);
+        }
     })
 })
 
