@@ -1,16 +1,13 @@
 'use strict';
 
 angular.module('yamm').controller('travelCtrl',
-    ['$scope', 'api',
-        function ($scope, api) {
+    ['$scope', 'api', '$interval',
+        function ($scope, api, $interval) {
             const getTravelTimes = () => {
                 api.getTravelTimes().then(data => {
-                    this.travelTime = data.rows[0].elements[0].duration.text;
-
-                    // slice off the last s
-                    if (this.travelTime[this.travelTime.length - 1] == 's') {
-                        this.travelTime = this.travelTime.slice(0, this.travelTime.length - 1)
-                    }
+                    console.dir(data);
+                    this.bikingTime = data.biking;
+                    this.drivingTime = data.driving;
                 });
             }
 
@@ -24,5 +21,6 @@ angular.module('yamm').controller('travelCtrl',
             })
 
             getTravelTimes();
+            $interval(getTravelTimes, 600000);
         }]
 );

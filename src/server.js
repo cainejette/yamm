@@ -72,7 +72,7 @@ router.get('/api/forecast', (req, res) => {
     }
 });
 
-const GoogleMapsAPI = require('googlemaps');
+
 
 router.get('/api/travel', (req, res) => {
     console.log('loading travel');
@@ -80,22 +80,26 @@ router.get('/api/travel', (req, res) => {
         res.send('no map key found in the environment');
     }
     else {
-        const gmAPI = new GoogleMapsAPI({ key: process.env.YAMM_MAPS_KEY, secure: true });
-        const params = {
+        const googleMapsClient = require('@google/maps').createClient({
+            key: process.env.YAMM_MAPS_KEY,
+            Promise: Promise
+        });
+        var bicyclingDistance = googleMapsClient.distanceMatrix({
             origins: config.travel.home,
             destinations: config.travel.destinations[0],
-            units: config.units,
             mode: 'bicycling'
-        }
+        }).asPromise();
 
-        gmAPI.distance(params, (err, results) => {
-            if (err) {
-                console.error('error loading gmaps');
-                console.error(err);
-                res.send(err);
-            } else {
-                res.send(results);
-            }
+        var drivingDistance = googleMapsClient.distanceMatrix({
+            origins: config.travel.home,
+            destinations: config.travel.destinations[0]
+        }).asPromise();
+
+        Promise.all([bicyclingDistance, drivingDistance]).then(data => {
+            res.send({
+                'biking': data[0].json.rows[0].elements[0].duration.text,
+                'driving': data[1].json.rows[0].elements[0].duration.text 
+            });
         });
     }
 });

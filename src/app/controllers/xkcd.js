@@ -32,6 +32,6 @@ angular.module('yamm').controller('xkcdCtrl',
 
             getComic();
 
-            $interval(getComic, 45000);
+            $interval(getComic, 60000);
         }]
 )

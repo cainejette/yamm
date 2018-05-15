@@ -23,6 +23,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/1.5.0/annyang.min.js"></script>
   <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
     crossorigin="anonymous">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
@@ -54,17 +55,22 @@
         </div>
 
         <div ng-controller="travelCtrl as travelCtrl">
-          <div class="info" ng-if="travelCtrl.visible">{{ travelCtrl.travelTime }} to vulcan by bicycle</div>
+          <div class="info" ng-if="travelCtrl.visible">{{ travelCtrl.bikingTime }} 
+              <i class="fa fa-bicycle" style="font-size:28px;color:white"></i>
+          </div>
+          <div class="info" ng-if="travelCtrl.visible">{{ travelCtrl.drivingTime }} 
+            <i class="fa fa-automobile" style="font-size:28px;color:white"></i>
+          </div>
         </div>
 
-        <div class="jobs" ng-controller="jobCtrl as jobCtrl">
+        <!-- <div class="jobs" ng-controller="jobCtrl as jobCtrl">
           <div ng-if="jobCtrl.visible">
-            <div class="job">{{ jobCtrl.jobs.length }} recent job listings</div>
+            <div class="job">{{ jobCtrl.jobs.length }} recent volleyball job listings</div>
             <div class="job" ng-repeat="job in jobCtrl.jobs">
               {{ job.position }} at {{ job.location }}
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="col-sm-6 right">

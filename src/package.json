@@ -6,7 +6,7 @@
     "cheerio": "^0.20.0",
     "curlrequest": "^0.5.7",
     "express": "^4.13.4",
-    "googlemaps": "^1.4.0",
+    "@google/maps": "0.4.6",
     "http-proxy": "^1.13.2",
     "moment": "^2.12.0",
     "node-uuid": "^1.4.7",
