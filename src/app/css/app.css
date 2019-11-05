@@ -77,9 +77,9 @@ i {
   max-height: 700px;
 }
 
-.comic img {
-  max-height: 100%;
-  max-width: 100%;
+.image img {
+  height: auto;
+  width: 600px;
 }
 
 .ng-enter {

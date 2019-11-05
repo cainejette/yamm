@@ -21,38 +21,23 @@ angular.module('yamm').factory('api', ['$http', '$q', function ($http, $q) {
     });
   }
 
+  const getImage = () => {
+    return getData('/api/image');
+  }
+
   const getForecast = () => {
     return getData('/api/forecast');
   }
 
-  const getTravelTimes = () => {
-    return getData('/api/travel');
-  }
-
-  const getTopPosts = () => {
-    return getData('/api/reddit');
-  }
-
-  const getTodos = () => {
-    return getData('/api/todo');
-  }
-  
   const getXkcd = () => {
     return getData('/api/xkcd');
   }
-  
-  const getJobs = () => {
-    return getData('/api/jobs');
-  }
 
   return {
+    getImage,
     getData,
     getWeather,
     getForecast,
-    getTravelTimes,
-    getTopPosts,
-    getTodos,
-    getXkcd,
-    getJobs
+    getXkcd
   };
 }]);

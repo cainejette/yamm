@@ -1,61 +1,38 @@
 ---
-
 - hosts: pi
   tasks:
-  - name: determine most recent build number
-    shell: ls /app | sort -nr | head -1
-    register: last_build
+    - name: determine most recent build number
+      shell: ls /app | sort -nr | head -1
+      register: last_build
 
-  - name: trim last_build
-    set_fact: last_build={{ last_build.stdout }}
+    - name: trim last_build
+      set_fact: last_build={{ last_build.stdout }}
 
-  - name: generate build number
-    set_fact: build_number="{{ last_build | int + 1 }}"
+    - name: generate build number
+      set_fact: build_number="{{ last_build | int + 1 }}"
 
-  - name: random port
-    set_fact: port={{ 50000 | random(40000, 1) }}
+    - name: random port
+      set_fact: port={{ 50000 | random(40000, 1) }}
 
-  - name: make folder
-    file:
-      path: /app/{{ build_number }}
-      state: directory
+    - name: make folder
+      file:
+        path: /app/{{ build_number }}
+        state: directory
 
-  - name: write nginx.conf
-    template: 
-      src: templates/nginx.conf.j2
-      dest: /etc/nginx/nginx.conf
+    - name: write nginx.conf
+      template:
+        src: templates/nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
 
-  - name: copy files into folder
-    copy: 
-      src: ../src
-      dest: /app/{{ build_number }}
+    - name: copy files into folder
+      copy:
+        src: ../src
+        dest: /app/{{ build_number }}
 
-  - name: install npm packages
-    npm:
-      path: /app/{{ build_number }}/src/
+    - name: install npm packages
+      npm:
+        path: /app/{{ build_number }}/src/
 
-  - name: reboot
-    become: true
-    shell: reboot
-
-  # - name: upload service file
-  #   template:
-  #     src: templates/yamm.service.j2
-  #     dest: /home/pi/.config/systemd/user/yamm.service
-  #     mode: 0755
-
-  # - name: enable service
-  #   systemd:
-  #     name: yamm.service
-  #     state: restarted
-  #     user: yes
-  #     daemon_reload: yes
-  #   notify:
-  #   - restart nginx
-
-  # handlers:
-  #   - name: restart nginx
-  #     become: true
-  #     service: 
-  #       name: nginx
-  #       state: restarted
+    - name: reboot
+      become: true
+      shell: reboot

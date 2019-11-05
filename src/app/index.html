@@ -10,14 +10,10 @@
 
   <script src="https://code.angularjs.org/1.2.16/angular.js"></script>
   <script src="app.js"></script>
-  <script src="controllers/job.js"></script>
-  <script src="controllers/reddit.js"></script>
   <script src="controllers/time.js"></script>
-  <script src="controllers/todo.js"></script>
-  <script src="controllers/travel.js"></script>
-  <script src="controllers/voice.js"></script>
   <script src="controllers/weather.js"></script>
   <script src="controllers/xkcd.js"></script>
+  <script src="controllers/images.js"></script>
   <script src="services/api.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-animate.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/1.5.0/annyang.min.js"></script>
@@ -34,10 +30,6 @@
   <div class="yamm container-fluid">
     <div class="row">
       <div class="col-sm-6">
-        <div ng-controller="voiceCtrl as voiceCtrl">
-          <div ng-if="voiceCtrl.commands.length">{{ voiceCtrl.commands[0] }}</div>
-        </div>
-
         <div ng-controller="timeCtrl as time">
           <div ng-controller="weatherCtrl as weather">
             <div ng-if="time.visible">
@@ -48,51 +40,23 @@
               <span class="time">{{ time.currentTime | date: 'HH'}}</span>
               <span class="time" ng-class="{'invisible': time.hideColon}">:</span>
               <span class="time">{{ time.currentTime | date: 'mm'}}</span>
-
               <div class="time" ng-show="time.timeElapsed > 0">{{ time.timeElapsed.toFixed(1) }}</div>
             </div>
-          </div>
-        </div>
-
-        <div ng-controller="travelCtrl as travelCtrl">
-          <div class="info" ng-if="travelCtrl.visible">{{ travelCtrl.bikingTime }} 
-              <i class="fa fa-bicycle" style="font-size:28px;color:white"></i>
-          </div>
-          <div class="info" ng-if="travelCtrl.visible">{{ travelCtrl.drivingTime }} 
-            <i class="fa fa-automobile" style="font-size:28px;color:white"></i>
-          </div>
-        </div>
-
-        <!-- <div class="jobs" ng-controller="jobCtrl as jobCtrl">
-          <div ng-if="jobCtrl.visible">
-            <div class="job">{{ jobCtrl.jobs.length }} recent volleyball job listings</div>
-            <div class="job" ng-repeat="job in jobCtrl.jobs">
-              {{ job.position }} at {{ job.location }}
-            </div>
-          </div>
-        </div> -->
-      </div>
-
-      <div class="col-sm-6 right">
-        <div class="todos text-right" ng-controller="todoCtrl as todoCtrl">
-          <div ng-repeat="todo in todoCtrl.todos" ng-if="todoCtrl.visible">
-            <div class="info">{{ todo }}</div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="row">
-      <div class="text-center xkcd" ng-controller="xkcdCtrl as xkcdCtrl">
-        <div ng-repeat="comic in xkcdCtrl.comics" ng-if="xkcdCtrl.visible">
+      <div class="text-center xkcd" ng-controller="imageCtrl as imageCtrl">
+        <div ng-repeat="image in imageCtrl.images" ng-if="imageCtrl.visible">
           <div ng-show="$first">
-            <div>{{ comic.title }}</div>
-            <div class="comic">
-              <img ng-src="{{ comic.comic }}">
+            <div class="image">
+              <img ng-src="{{ image }}">
             </div>
-            <div class="alt">{{ comic.alt }}</div>
           </div>
         </div>
+        <div>❤️ Welcome home, booba! ❤️</div>
       </div>
     </div>
   </div>
