@@ -26,8 +26,8 @@
 
     - name: copy files into folder
       copy:
-        src: ../src
-        dest: /app/{{ build_number }}
+        src: ../src/out
+        dest: /app/{{ build_number }}/src
 
     - name: install npm packages
       npm:
