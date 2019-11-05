@@ -5,6 +5,7 @@ const curl = require('curlrequest');
 const moment = require('moment');
 const cheerio = require('cheerio');
 
+const path = require('path');
 const fs = require('fs');
 
 const config = require('./config.json');
@@ -109,18 +110,20 @@ router.get('/api/xkcd', (req, res) => {
 });
 
 router.get('/api/image', (req, res) => {
-    const images = fs.readdirSync('images');
+    console.log('getting /api/image...');
+    const images = fs.readdirSync(path.join(__dirname, 'images'));
     const random = Math.floor(Math.random() * Math.floor(images.length - 1))
     const image = `images/${random}.jpg`;
+    console.log('serving up ' + image);
     res.send(image);
 });
 
 router.get('/images/:image', (req, res) => {
     console.log('hitting: ' + req.url);
     const imageName = req.params.image;
-    var s = fs.createReadStream(`./images/${imageName}`);
-    s.on('open', function () {
-        s.pipe(res);
+    var stream = fs.createReadStream(path.join(__dirname, 'images', imageName));
+    stream.on('open', function () {
+        stream.pipe(res);
     });
 });
 

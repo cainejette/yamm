@@ -48,15 +48,17 @@
     </div>
 
     <div class="row">
-      <div class="text-center xkcd" ng-controller="imageCtrl as imageCtrl">
-        <div ng-repeat="image in imageCtrl.images" ng-if="imageCtrl.visible">
-          <div ng-show="$first">
-            <div class="image">
-              <img ng-src="{{ image }}">
+      <div class="col-sm-6">
+        <div class="text-center xkcd" ng-controller="imageCtrl as imageCtrl">
+          <div ng-repeat="image in imageCtrl.images" ng-if="imageCtrl.visible">
+            <div ng-show="$first">
+              <div class="image">
+                <img ng-src="{{ image }}">
+              </div>
             </div>
           </div>
+          <div>❤️ Welcome home, booba! ❤️</div>
         </div>
-        <div>❤️ Welcome home, booba! ❤️</div>
       </div>
     </div>
   </div>

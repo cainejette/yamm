@@ -64,13 +64,9 @@ i {
   font-size: .65em;
 }
 
-.comic {
-  max-height: 700px;
-}
-
 .image img {
-  height: auto;
-  width: 600px;
+  height: 800px;
+  width: auto;
 }
 
 .ng-enter {
