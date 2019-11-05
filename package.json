@@ -2,7 +2,8 @@
   "name": "yamm",
   "scripts": {
     "clean": "rm -rf out/",
-    "build": "mkdir -p out && rsync -av --progress . ./out --exclude node_modules --exclude out"
+    "build": "mkdir -p out && rsync -av --progress src/* out",
+    "start": "node out/server.js"
   },
   "dependencies": {
     "angular": "^1.5.5",
