@@ -2,7 +2,7 @@
   "name": "yamm",
   "scripts": {
     "clean": "rm -rf out/",
-    "build": "mkdir -p out && rsync -av --progress src/* out",
+    "build": "mkdir -p out && rsync -av --progress src/* out && cp package*.json out",
     "start": "node out/server.js"
   },
   "dependencies": {
