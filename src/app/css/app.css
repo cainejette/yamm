@@ -32,11 +32,6 @@ h1 {
   font-size: 2em;
 }
 
-.jobs {
-  margin-top: 20px;
-  font-size: 1.2em;
-}
-
 .weather {
   margin-left: .5em;
   text-transform: uppercase;
@@ -53,10 +48,6 @@ i {
 .right {
   float: right;
   margin-top: 30px;
-}
-
-.reddit {
-  margin-top: 200px;
 }
 
 .xkcd {
