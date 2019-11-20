@@ -6,7 +6,7 @@
     "start": "node out/server.js"
   },
   "dependencies": {
-    "angular": "^1.5.5",
+    "angular": "^1.7.9",
     "angular-animate": "^1.5.5",
     "cheerio": "^0.20.0",
     "curlrequest": "^0.5.7",
